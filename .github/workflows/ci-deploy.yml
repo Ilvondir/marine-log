@@ -51,6 +51,12 @@ jobs:
           php -r "file_exists('.env') || copy('.env.example', '.env');"
         shell: bash
 
+      - name: Generate application key
+        run: php artisan key:generate --force
+
+      - name: Link storage
+        run: php artisan storage:link
+
       - name: Wait for MySQL
         run: |
           n=0; until mysqladmin ping -h127.0.0.1 -uroot -ppassword >/dev/null 2>&1 || [ $n -ge 30 ]; do n=$((n+1)); sleep 1; done
