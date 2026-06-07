@@ -1,0 +1,13 @@
+vendor
+node_modules
+.git
+.github
+.env
+.env.*
+storage
+tests/_output
+/.venv
+/.idea
+.vscode
+docker-compose.override.yml
+Dockerfile.dev
