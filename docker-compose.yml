@@ -27,10 +27,11 @@ services:
       - "3306:3306"
 
   web:
-    image: nginx:1.25
+    build:
+      context: .
+      dockerfile: docker/web/Dockerfile
     volumes:
       - ./:/var/www/html:ro
-      - ./docker/nginx:/etc/nginx/conf.d:ro
     depends_on:
       - app
 
