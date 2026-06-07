@@ -77,6 +77,12 @@ jobs:
       - name: Trigger Coolify Deploy Webhook
         run: |
           if [ -z "$COOLIFY_DEPLOY_WEBHOOK" ]; then echo 'COOLIFY_DEPLOY_WEBHOOK not set'; exit 1; fi
-          curl -s -X POST -H "Content-Type: application/json" -d "{\"ref\": \"${GITHUB_REF_NAME}\"}" "$COOLIFY_DEPLOY_WEBHOOK"
+          if [ -z "$COOLIFY_API_TOKEN" ]; then echo 'COOLIFY_API_TOKEN not set'; exit 1; fi
+          curl -sS --fail-with-body -X POST \
+            -H "Authorization: Bearer $COOLIFY_API_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"ref\": \"${GITHUB_REF_NAME}\"}" \
+            "$COOLIFY_DEPLOY_WEBHOOK"
         env:
           COOLIFY_DEPLOY_WEBHOOK: ${{ secrets.COOLIFY_DEPLOY_WEBHOOK }}
+          COOLIFY_API_TOKEN: ${{ secrets.COOLIFY_API_TOKEN }}
