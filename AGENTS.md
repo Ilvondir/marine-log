@@ -30,7 +30,7 @@ Keep schema changes in `database/migrations` and Sail services in `@compose.yaml
 - Bind each repository contract to its implementation in `@app/Providers/AppServiceProvider.php`.
 - Inject services and repository contracts through constructors. Do not resolve application dependencies with `app()` or instantiate repositories inside controllers and services.
 - Keep services independent of HTTP objects. Pass validated values or typed data objects.
-- Catch exceptions from repository persistence/query operations. Log at `error` level before rethrowing, using `repository`, `method`, `operation`, `entity_id`, `exception`, and `message`; exclude credentials, tokens, media, and request payloads. Rethrow the original exception or a typed application exception with `previous` set; never swallow failures or return `null` as an error signal.
+- Repository exceptions must be logged before rethrowing with context keys `repository`, `method`, `operation`, `entity_id`, `exception`, and `message`. Never log secrets or payloads, swallow failures, or return `null` as an error signal.
 - Add unit tests for service behavior using mocked repository contracts, and feature tests for complete HTTP and database flows.
 
 ## Code Style
