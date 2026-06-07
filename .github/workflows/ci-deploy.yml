@@ -72,11 +72,11 @@ jobs:
     name: Deploy to Coolify
     runs-on: ubuntu-latest
     needs: tests
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     steps:
       - name: Trigger Coolify Deploy Webhook
         run: |
           if [ -z "$COOLIFY_DEPLOY_WEBHOOK" ]; then echo 'COOLIFY_DEPLOY_WEBHOOK not set'; exit 1; fi
-          curl -s -X POST -H "Content-Type: application/json" -d "{\"ref\": \"main\"}" "$COOLIFY_DEPLOY_WEBHOOK"
+          curl -s -X POST -H "Content-Type: application/json" -d "{\"ref\": \"${GITHUB_REF_NAME}\"}" "$COOLIFY_DEPLOY_WEBHOOK"
         env:
           COOLIFY_DEPLOY_WEBHOOK: ${{ secrets.COOLIFY_DEPLOY_WEBHOOK }}
