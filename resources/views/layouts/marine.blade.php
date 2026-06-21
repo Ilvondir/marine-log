@@ -148,11 +148,15 @@
                     justify-content: center;
                     padding: 0.85rem 1.2rem;
                     border-radius: 9999px;
+                    color: var(--marine-foam);
                 }
 
                 .marine-navbutton {
                     cursor: pointer;
                     font: inherit;
+                    appearance: none;
+                    -webkit-appearance: none;
+                    border: 1px solid rgba(246, 251, 252, 0.16);
                 }
 
                 .marine-button {

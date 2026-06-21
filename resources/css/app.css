@@ -417,7 +417,7 @@
     .marine-navlink {
         border-color: rgba(246, 251, 252, 0.16);
         background: rgba(246, 251, 252, 0.04);
-        color: var(--marine-foam);
+        color: var(--marine-foam) !important;
     }
 
     .marine-button--ghost:hover,
@@ -437,6 +437,10 @@
     .marine-navbutton {
         cursor: pointer;
         font: inherit;
+        color: inherit;
+        appearance: none;
+        -webkit-appearance: none;
+        border: 1px solid rgba(246, 251, 252, 0.16);
     }
 }
 
