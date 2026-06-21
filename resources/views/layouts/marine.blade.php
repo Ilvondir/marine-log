@@ -114,6 +114,33 @@
                     flex-wrap: wrap;
                 }
 
+                .marine-userchip {
+                    display: grid;
+                    gap: 0.1rem;
+                    padding: 0.7rem 1rem;
+                    border-radius: 1rem;
+                    border: 1px solid rgba(77, 196, 255, 0.24);
+                    background: rgba(77, 196, 255, 0.08);
+                    min-width: 10rem;
+                }
+
+                .marine-userchip__label,
+                .marine-userchip__role {
+                    font-size: 0.72rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.16em;
+                    color: rgba(246, 251, 252, 0.68);
+                }
+
+                .marine-userchip__name {
+                    font-weight: 700;
+                    color: var(--marine-foam);
+                }
+
+                .marine-inline-form {
+                    display: inline-flex;
+                }
+
                 .marine-button,
                 .marine-navlink {
                     display: inline-flex;
@@ -121,6 +148,11 @@
                     justify-content: center;
                     padding: 0.85rem 1.2rem;
                     border-radius: 9999px;
+                }
+
+                .marine-navbutton {
+                    cursor: pointer;
+                    font: inherit;
                 }
 
                 .marine-button {
@@ -205,6 +237,54 @@
                     background: rgba(77, 196, 255, 0.12);
                 }
 
+                .marine-form {
+                    display: grid;
+                    gap: 1rem;
+                    margin-top: 1.5rem;
+                }
+
+                .marine-field {
+                    display: grid;
+                    gap: 0.45rem;
+                }
+
+                .marine-label {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: rgba(246, 251, 252, 0.88);
+                }
+
+                .marine-input {
+                    width: 100%;
+                    border: 1px solid rgba(246, 251, 252, 0.12);
+                    border-radius: 1rem;
+                    background: rgba(246, 251, 252, 0.04);
+                    padding: 0.95rem 1rem;
+                    color: var(--marine-foam);
+                    outline: none;
+                }
+
+                .marine-form__actions {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.875rem;
+                    margin-top: 0.25rem;
+                    align-items: center;
+                }
+
+                .marine-form__actions .marine-button,
+                .marine-form__actions .marine-navlink {
+                    min-width: 10rem;
+                }
+
+                .marine-error {
+                    border-radius: 1rem;
+                    border: 1px solid rgba(248, 113, 113, 0.28);
+                    background: rgba(248, 113, 113, 0.08);
+                    padding: 0.9rem 1rem;
+                    color: #fecaca;
+                }
+
                 @media (min-width: 48rem) {
                     .marine-hero {
                         grid-template-columns: minmax(0, 1.6fr) minmax(19rem, 1fr);
@@ -228,8 +308,23 @@
                 </a>
 
                 <nav class="marine-topbar__nav" aria-label="Primary">
-                    <a href="{{ route('login') }}" class="marine-navlink">Sign in</a>
-                    <a href="{{ route('register') }}" class="marine-button marine-button--small">Create account</a>
+                    @guest
+                        <a href="{{ route('login') }}" class="marine-navlink">Sign in</a>
+                        <a href="{{ route('register') }}" class="marine-button marine-button--small">Create account</a>
+                    @endguest
+
+                    @auth
+                        @if (auth()->user()?->isAdmin())
+                            <a href="{{ route('admin.dashboard') }}" class="marine-navlink">Admin area</a>
+                        @endif
+
+                        <a href="{{ route('home') }}" class="marine-navlink">Home</a>
+
+                        <form action="{{ route('logout') }}" method="post" class="marine-inline-form">
+                            @csrf
+                            <button type="submit" class="marine-navlink marine-navbutton">Sign out</button>
+                        </form>
+                    @endauth
                 </nav>
             </header>
 

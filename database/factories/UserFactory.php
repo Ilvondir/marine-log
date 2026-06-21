@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -25,6 +26,9 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
+            'role_id' => Role::query()->firstOrCreate([
+                'name' => Role::USER,
+            ])->id,
             'name' => 'Test User',
             'email' => Str::lower(Str::random(10)).'@example.com',
             'email_verified_at' => now(),
@@ -40,6 +44,18 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user should receive the Admin role.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role_id' => Role::query()->firstOrCreate([
+                'name' => Role::ADMIN,
+            ])->id,
         ]);
     }
 }
