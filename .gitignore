@@ -57,3 +57,4 @@ Homestead.json
 .agents
 
 # End of https://www.toptal.com/developers/gitignore/api/laravel
+.aider*
