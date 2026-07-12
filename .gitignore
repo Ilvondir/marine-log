@@ -55,6 +55,7 @@ Homestead.json
 .phpunit.result.cache
 
 .agents
+.kiro/settings/mcp.json
 
 # End of https://www.toptal.com/developers/gitignore/api/laravel
 .aider*
