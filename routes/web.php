@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function (): void {
     Route::get('/observations/create', [ObservationController::class, 'create'])->name('observations.create');
     Route::post('/observations', [ObservationController::class, 'store'])->name('observations.store');
     Route::get('/observations/{observation}', [ObservationController::class, 'show'])->name('observations.show');
+    Route::get('/observations/{observation}/edit', [ObservationController::class, 'edit'])->name('observations.edit');
+    Route::put('/observations/{observation}', [ObservationController::class, 'update'])->name('observations.update');
+    Route::delete('/observations/{observation}', [ObservationController::class, 'destroy'])->name('observations.destroy');
 });
 
 Route::get('/admin', AdminDashboardController::class)

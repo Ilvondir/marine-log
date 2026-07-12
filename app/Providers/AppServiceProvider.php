@@ -4,8 +4,11 @@ namespace App\Providers;
 
 use App\Contracts\Repositories\ObservationRepositoryInterface;
 use App\Contracts\Repositories\ResourceRepositoryInterface;
+use App\Models\Observation;
+use App\Policies\ObservationPolicy;
 use App\Repositories\EloquentObservationRepository;
 use App\Repositories\EloquentResourceRepository;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
@@ -25,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Gate::policy(Observation::class, ObservationPolicy::class);
+
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }

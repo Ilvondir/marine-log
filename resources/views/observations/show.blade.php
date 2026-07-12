@@ -99,9 +99,29 @@
             </div>
 
             <div class="marine-form__actions" style="margin-top: 1.5rem;">
-                <a href="{{ route('observations.create') }}" class="marine-button">New observation</a>
+                @can('update', $observation)
+                    <a href="{{ route('observations.edit', $observation) }}" class="marine-button">Edit observation</a>
+                @endcan
+                <a href="{{ route('observations.create') }}" class="marine-button" style="background: transparent; border-color: var(--marine-border);">New observation</a>
                 <a href="{{ route('home') }}" class="marine-navlink">Back to home</a>
             </div>
+
+            @can('delete', $observation)
+                <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--marine-border);">
+                    <form method="post" action="{{ route('observations.destroy', $observation) }}" id="delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button
+                            type="button"
+                            onclick="if(confirm('Are you sure you want to delete this observation? This action cannot be undone.')){document.getElementById('delete-form').submit();}"
+                            class="marine-button"
+                            style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;"
+                        >
+                            Delete observation
+                        </button>
+                    </form>
+                </div>
+            @endcan
         </div>
     </section>
 
