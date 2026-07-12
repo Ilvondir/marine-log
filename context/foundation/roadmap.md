@@ -30,7 +30,7 @@ MarineLog ma pomóc nurkom-amatorom dokumentować spotkania ze zwierzętami wodn
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
 | F-01 | auth-foundation | (foundation) e-mail/password auth scaffold landed; user/admin access checks are available for later slices | — | FR-002, FR-004, FR-005, FR-006 | done |
-| S-01 | public-observation-feed | browse public observations without logging in | — | FR-001 | ready |
+| S-01 | public-observation-feed | browse public observations without logging in | — | FR-001 | implemented |
 | S-02 | publish-observation-flow | create and publish an observation with species, date/time, location, and at least one photo | F-01 | US-01, FR-002, FR-003 | implemented |
 | S-03 | own-observation-management | edit or delete their own observation | F-01, S-02 | FR-004 | proposed |
 | S-04 | admin-moderation-access | moderate or delete any observation and block user accounts | F-01, S-02 | FR-005, FR-006 | proposed |
@@ -83,7 +83,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Start here to prove the public read side with the smallest possible slice; if we postpone it, the app's visible surface shrinks to the private publish flow only.
-- **Status:** ready
+- **Status:** implemented
 
 ### S-02: Publish observations
 

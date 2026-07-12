@@ -293,6 +293,232 @@
                     .marine-hero {
                         grid-template-columns: minmax(0, 1.6fr) minmax(19rem, 1fr);
                     }
+
+                    .marine-detail-layout {
+                        grid-template-columns: 1.4fr 1fr;
+                    }
+                }
+
+                @media (min-width: 64rem) {
+                    .marine-card-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+
+                @media (min-width: 40rem) and (max-width: 63.99rem) {
+                    .marine-card-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                /* Card grid */
+                .marine-card-grid {
+                    display: grid;
+                    gap: 1.25rem;
+                    margin-top: 1.5rem;
+                }
+
+                .marine-card {
+                    display: block;
+                    border: 1px solid var(--marine-border);
+                    border-radius: 1.25rem;
+                    background: rgba(6, 18, 31, 0.72);
+                    overflow: hidden;
+                    transition: border-color 0.2s, transform 0.2s;
+                }
+
+                .marine-card:hover {
+                    border-color: rgba(77, 196, 255, 0.36);
+                    transform: translateY(-2px);
+                }
+
+                .marine-card__thumb {
+                    width: 100%;
+                    aspect-ratio: 4 / 3;
+                    object-fit: cover;
+                    display: block;
+                }
+
+                .marine-card__body {
+                    padding: 1rem 1.25rem 1.25rem;
+                    display: grid;
+                    gap: 0.3rem;
+                }
+
+                .marine-card__species {
+                    font-weight: 700;
+                    font-size: 1.05rem;
+                }
+
+                .marine-card__meta {
+                    font-size: 0.85rem;
+                    color: rgba(246, 251, 252, 0.65);
+                }
+
+                /* Map panel */
+                .marine-map-panel {
+                    border: 1px solid var(--marine-border);
+                    border-radius: 1.25rem;
+                    overflow: hidden;
+                    margin-top: 1.25rem;
+                }
+
+                .marine-map-panel__map {
+                    height: 280px;
+                    width: 100%;
+                    z-index: 0;
+                }
+
+                /* Detail layout */
+                .marine-detail-layout {
+                    display: grid;
+                    gap: 2rem;
+                }
+
+                /* Photo gallery */
+                .marine-gallery {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+                    gap: 0.75rem;
+                }
+
+                .marine-gallery__thumb {
+                    width: 100%;
+                    aspect-ratio: 4 / 3;
+                    object-fit: cover;
+                    border-radius: 0.75rem;
+                    border: 1px solid var(--marine-border);
+                    cursor: pointer;
+                    transition: border-color 0.2s, transform 0.15s;
+                }
+
+                .marine-gallery__thumb:hover {
+                    border-color: rgba(77, 196, 255, 0.5);
+                    transform: scale(1.03);
+                }
+
+                /* Lightbox */
+                .marine-lightbox {
+                    position: fixed;
+                    inset: 0;
+                    z-index: 9999;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: rgba(3, 11, 20, 0.92);
+                    backdrop-filter: blur(8px);
+                    padding: 1.5rem;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.2s;
+                }
+
+                .marine-lightbox--open {
+                    opacity: 1;
+                    pointer-events: auto;
+                }
+
+                .marine-lightbox__img {
+                    max-width: 90vw;
+                    max-height: 85vh;
+                    object-fit: contain;
+                    border-radius: 0.5rem;
+                }
+
+                .marine-lightbox__close {
+                    position: absolute;
+                    top: 1.25rem;
+                    right: 1.25rem;
+                    background: rgba(246, 251, 252, 0.1);
+                    border: 1px solid var(--marine-border);
+                    border-radius: 9999px;
+                    color: var(--marine-foam);
+                    width: 2.75rem;
+                    height: 2.75rem;
+                    display: grid;
+                    place-items: center;
+                    cursor: pointer;
+                    font-size: 1.25rem;
+                }
+
+                .marine-lightbox__nav {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    background: rgba(246, 251, 252, 0.1);
+                    border: 1px solid var(--marine-border);
+                    border-radius: 9999px;
+                    color: var(--marine-foam);
+                    width: 2.75rem;
+                    height: 2.75rem;
+                    display: grid;
+                    place-items: center;
+                    cursor: pointer;
+                    font-size: 1.25rem;
+                }
+
+                .marine-lightbox__nav--prev {
+                    left: 1.25rem;
+                }
+
+                .marine-lightbox__nav--next {
+                    right: 1.25rem;
+                }
+
+                /* Pagination */
+                .marine-pagination {
+                    display: flex;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    margin-top: 2rem;
+                    flex-wrap: wrap;
+                }
+
+                .marine-pagination a,
+                .marine-pagination span {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    min-width: 2.5rem;
+                    height: 2.5rem;
+                    padding: 0 0.75rem;
+                    border-radius: 9999px;
+                    border: 1px solid var(--marine-border);
+                    background: rgba(246, 251, 252, 0.04);
+                    color: var(--marine-foam);
+                    font-size: 0.9rem;
+                }
+
+                .marine-pagination a:hover {
+                    border-color: rgba(77, 196, 255, 0.36);
+                }
+
+                .marine-pagination .active span {
+                    background: linear-gradient(135deg, rgba(17, 122, 139, 0.95), rgba(13, 59, 102, 0.95));
+                    font-weight: 700;
+                }
+
+                .marine-pagination .disabled span {
+                    opacity: 0.4;
+                }
+
+                /* Empty state */
+                .marine-empty {
+                    text-align: center;
+                    padding: 3rem 1.5rem;
+                    color: rgba(246, 251, 252, 0.6);
+                }
+
+                .marine-empty__icon {
+                    font-size: 3rem;
+                    margin-bottom: 1rem;
+                    opacity: 0.5;
+                }
+
+                .marine-empty__text {
+                    font-size: 1.1rem;
+                    max-width: 28ch;
+                    margin: 0 auto;
                 }
             </style>
         @endif
@@ -312,6 +538,8 @@
                 </a>
 
                 <nav class="marine-topbar__nav" aria-label="Primary">
+                    <a href="{{ route('observations.index') }}" class="marine-navlink">Observations</a>
+
                     @guest
                         <a href="{{ route('login') }}" class="marine-navlink">Sign in</a>
                         <a href="{{ route('register') }}" class="marine-button marine-button--small">Create account</a>
@@ -323,7 +551,6 @@
                         @endif
 
                         <a href="{{ route('observations.create') }}" class="marine-button marine-button--small">New observation</a>
-                        <a href="{{ route('home') }}" class="marine-navlink">Home</a>
 
                         <form action="{{ route('logout') }}" method="post" class="marine-inline-form">
                             @csrf

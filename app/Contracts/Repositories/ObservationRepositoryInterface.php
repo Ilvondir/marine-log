@@ -3,6 +3,7 @@
 namespace App\Contracts\Repositories;
 
 use App\Models\Observation;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 interface ObservationRepositoryInterface
@@ -20,4 +21,18 @@ interface ObservationRepositoryInterface
      * @throws ModelNotFoundException
      */
     public function findById(int $id): Observation;
+
+    /**
+     * Paginate published observations, newest first.
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function paginatePublished(int $perPage = 12): LengthAwarePaginator;
+
+    /**
+     * Find a published observation by its ID.
+     *
+     * @throws ModelNotFoundException
+     */
+    public function findPublishedById(int $id): Observation;
 }

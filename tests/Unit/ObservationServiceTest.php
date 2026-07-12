@@ -8,6 +8,8 @@ use App\Enums\ResourceType;
 use App\Models\Observation;
 use App\Models\Resource;
 use App\Services\ObservationService;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Mockery;
@@ -115,5 +117,33 @@ class ObservationServiceTest extends TestCase
 
         $files = Storage::disk('public')->allFiles('observations/7');
         $this->assertCount(3, $files);
+    }
+
+    public function test_get_published_feed_returns_paginated_results(): void
+    {
+        $paginator = Mockery::mock(LengthAwarePaginator::class);
+
+        $this->observationRepo
+            ->shouldReceive('paginatePublished')
+            ->once()
+            ->with(12)
+            ->andReturn($paginator);
+
+        $result = $this->service->getPublishedFeed(12);
+
+        $this->assertSame($paginator, $result);
+    }
+
+    public function test_find_published_by_id_throws_for_unpublished(): void
+    {
+        $this->observationRepo
+            ->shouldReceive('findPublishedById')
+            ->once()
+            ->with(99)
+            ->andThrow(new ModelNotFoundException);
+
+        $this->expectException(ModelNotFoundException::class);
+
+        $this->service->findPublishedById(99);
     }
 }
