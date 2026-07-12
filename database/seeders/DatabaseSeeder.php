@@ -16,12 +16,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if (app()->environment('production')) {
-            $this->command?->warn('Skipping seed in production.');
-
-            return;
-        }
-
         Role::query()->firstOrCreate([
             'name' => Role::USER,
         ]);
@@ -30,11 +24,20 @@ class DatabaseSeeder extends Seeder
             'name' => Role::ADMIN,
         ]);
 
-        User::factory()
-            ->admin()
-            ->create([
-                'name' => 'MarineLog Admin',
-                'email' => 'admin@marinelog.test',
+        if (! User::query()->where('email', 'admin@marinelog.test')->exists()) {
+            User::factory()
+                ->admin()
+                ->create([
+                    'name' => 'MarineLog Admin',
+                    'email' => 'admin@marinelog.test',
+                ]);
+        }
+
+        if (! User::query()->where('email', 'user@marinelog.test')->exists()) {
+            User::factory()->create([
+                'name' => 'MarineLog User',
+                'email' => 'user@marinelog.test',
             ]);
+        }
     }
 }

@@ -32,4 +32,9 @@ RUN mkdir -p storage/framework/cache storage/framework/sessions storage/framewor
     && find /var/www/html -type f -exec chmod 644 {} \;
 
 EXPOSE 80
+
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["apache2-foreground"]
