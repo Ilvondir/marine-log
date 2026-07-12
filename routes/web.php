@@ -5,7 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ObservationController;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome')->name('home');
+Route::get('/', [ObservationController::class, 'index'])->name('home');
 
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthController::class, 'createLogin'])->name('login');
@@ -26,6 +26,7 @@ Route::get('/observations', [ObservationController::class, 'index'])->name('obse
 
 // Authenticated observation routes (before wildcard to avoid conflict)
 Route::middleware('auth')->group(function (): void {
+    Route::get('/observations/my', [ObservationController::class, 'myObservations'])->name('observations.my');
     Route::get('/observations/create', [ObservationController::class, 'create'])->name('observations.create');
     Route::post('/observations', [ObservationController::class, 'store'])->name('observations.store');
     Route::get('/observations/{observation}/edit', [ObservationController::class, 'edit'])->name('observations.edit');

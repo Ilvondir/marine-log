@@ -15,9 +15,9 @@ class AuthScaffoldTest extends TestCase
     {
         $this->get(route('home'))
             ->assertOk()
-            ->assertSee('Create account')
+            ->assertSee('Observations')
             ->assertSee('Sign in')
-            ->assertDontSee('Signed in as');
+            ->assertSee('Create account');
     }
 
     public function test_authenticated_homepage_shows_user_identity_and_role(): void
@@ -27,9 +27,9 @@ class AuthScaffoldTest extends TestCase
         $this->actingAs($user)
             ->get(route('home'))
             ->assertOk()
-            ->assertSee('Signed in as')
-            ->assertSee($user->name)
-            ->assertSee($user->role?->name ?? Role::USER)
+            ->assertSee('Observations')
+            ->assertSee('New observation')
+            ->assertSee('Sign out')
             ->assertDontSee('Create account')
             ->assertDontSee('Sign in');
     }

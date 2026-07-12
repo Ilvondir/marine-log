@@ -51,4 +51,11 @@ interface ObservationRepositoryInterface
      * @throws ModelNotFoundException
      */
     public function delete(int $id): void;
+
+    /**
+     * Paginate observations belonging to a specific user, newest first.
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function paginateByUser(int $userId, int $perPage = 12): LengthAwarePaginator;
 }

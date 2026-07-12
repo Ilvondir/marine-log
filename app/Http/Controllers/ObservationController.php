@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateObservationRequest;
 use App\Models\Observation;
 use App\Services\ObservationService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ObservationController extends Controller
@@ -23,6 +24,16 @@ class ObservationController extends Controller
         $observations = $this->observationService->getPublishedFeed();
 
         return view('observations.index', compact('observations'));
+    }
+
+    /**
+     * Display the authenticated user's observations.
+     */
+    public function myObservations(Request $request): View
+    {
+        $observations = $this->observationService->getUserObservations($request->user()->id);
+
+        return view('observations.my', compact('observations'));
     }
 
     /**

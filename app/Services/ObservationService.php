@@ -77,6 +77,16 @@ class ObservationService
     }
 
     /**
+     * Get a paginated list of observations belonging to a user.
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function getUserObservations(int $userId, int $perPage = 12): LengthAwarePaginator
+    {
+        return $this->observationRepository->paginateByUser($userId, $perPage);
+    }
+
+    /**
      * Update an existing observation, optionally adding/removing media.
      *
      * @param  array<string, mixed>  $validatedData
@@ -148,7 +158,7 @@ class ObservationService
             ->whereIn('id', $resourceIds)
             ->get();
 
-        /** @var Resource $resource */
+        /** @var resource $resource */
         foreach ($resources as $resource) {
             Storage::disk('public')->delete($resource->path);
             $this->resourceRepository->deleteById($resource->id);

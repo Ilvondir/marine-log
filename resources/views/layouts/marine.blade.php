@@ -361,10 +361,11 @@
                     border-radius: 1.25rem;
                     overflow: hidden;
                     margin-top: 1.25rem;
+                    max-width: 56rem;
                 }
 
                 .marine-map-panel__map {
-                    height: 280px;
+                    height: 360px;
                     width: 100%;
                     z-index: 0;
                 }
@@ -502,6 +503,60 @@
                     opacity: 0.4;
                 }
 
+                /* Table */
+                .marine-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-size: 0.9rem;
+                }
+
+                .marine-table th,
+                .marine-table td {
+                    padding: 0.75rem 0.75rem;
+                    text-align: left;
+                    border-bottom: 1px solid var(--marine-border);
+                    vertical-align: middle;
+                }
+
+                .marine-table th {
+                    font-size: 0.75rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1em;
+                    color: rgba(246, 251, 252, 0.6);
+                    font-weight: 600;
+                }
+
+                .marine-table tr:hover td {
+                    background: rgba(77, 196, 255, 0.04);
+                }
+
+                .marine-table-action {
+                    display: inline-flex;
+                    padding: 0.35rem 0.7rem;
+                    border-radius: 0.5rem;
+                    border: 1px solid var(--marine-border);
+                    background: rgba(246, 251, 252, 0.04);
+                    color: var(--marine-foam);
+                    font-size: 0.78rem;
+                    text-decoration: none;
+                    cursor: pointer;
+                    font: inherit;
+                }
+
+                .marine-table-action:hover {
+                    border-color: rgba(77, 196, 255, 0.36);
+                }
+
+                .marine-table-action--danger {
+                    border-color: rgba(239, 68, 68, 0.3);
+                    color: #fca5a5;
+                    background: rgba(239, 68, 68, 0.06);
+                }
+
+                .marine-table-action--danger:hover {
+                    border-color: rgba(239, 68, 68, 0.6);
+                }
+
                 /* Empty state */
                 .marine-empty {
                     text-align: center;
@@ -550,6 +605,7 @@
                             <a href="{{ route('admin.dashboard') }}" class="marine-navlink">Admin area</a>
                         @endif
 
+                        <a href="{{ route('observations.my') }}" class="marine-navlink">My observations</a>
                         <a href="{{ route('observations.create') }}" class="marine-button marine-button--small">New observation</a>
 
                         <form action="{{ route('logout') }}" method="post" class="marine-inline-form">
