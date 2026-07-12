@@ -82,13 +82,16 @@
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                const observations = @json($observations->getCollection()->map(fn ($o) => [
-                    'id' => $o->id,
-                    'species' => $o->species,
-                    'lat' => (float) $o->latitude,
-                    'lng' => (float) $o->longitude,
-                    'url' => route('observations.show', $o),
-                ]));
+                @php
+                    $mapData = $observations->getCollection()->map(fn ($o) => [
+                        'id' => $o->id,
+                        'species' => $o->species,
+                        'lat' => (float) $o->latitude,
+                        'lng' => (float) $o->longitude,
+                        'url' => route('observations.show', $o),
+                    ]);
+                @endphp
+                const observations = @json($mapData);
 
                 const map = L.map('feed-map').setView([30, 0], 2);
 
