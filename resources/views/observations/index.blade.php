@@ -101,7 +101,11 @@
 
                 observations.forEach(function (obs) {
                     const marker = L.marker([obs.lat, obs.lng]).addTo(map);
-                    marker.bindPopup('<a href="' + obs.url + '" style="font-weight:600;">' + obs.species + '</a>');
+                    const link = document.createElement('a');
+                    link.href = obs.url;
+                    link.style.fontWeight = '600';
+                    link.textContent = obs.species;
+                    marker.bindPopup(link);
                     bounds.extend([obs.lat, obs.lng]);
                 });
 
