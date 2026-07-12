@@ -6,6 +6,7 @@ use App\Contracts\Repositories\ObservationRepositoryInterface;
 use App\Contracts\Repositories\ResourceRepositoryInterface;
 use App\Enums\ResourceType;
 use App\Models\Observation;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -46,6 +47,27 @@ class ObservationService
 
             return $observation;
         });
+    }
+
+    /**
+     * Get a paginated feed of published observations, newest first.
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function getPublishedFeed(int $perPage = 12): LengthAwarePaginator
+    {
+        return $this->observationRepository->paginatePublished($perPage);
+    }
+
+    /**
+     * Find a published observation by ID.
+     *
+     * Throws ModelNotFoundException if the observation does not exist
+     * or is not published.
+     */
+    public function findPublishedById(int $id): Observation
+    {
+        return $this->observationRepository->findPublishedById($id);
     }
 
     /**

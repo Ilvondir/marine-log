@@ -14,6 +14,16 @@ class ObservationController extends Controller
     ) {}
 
     /**
+     * Display a paginated feed of published observations.
+     */
+    public function index(): View
+    {
+        $observations = $this->observationService->getPublishedFeed();
+
+        return view('observations.index', compact('observations'));
+    }
+
+    /**
      * Show the form for creating a new observation.
      */
     public function create(): View
@@ -41,11 +51,11 @@ class ObservationController extends Controller
     }
 
     /**
-     * Display the specified observation.
+     * Display the specified published observation.
      */
     public function show(int $observation): View
     {
-        $observation = $this->observationService->findById($observation);
+        $observation = $this->observationService->findPublishedById($observation);
 
         return view('observations.show', compact('observation'));
     }
