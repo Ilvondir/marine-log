@@ -322,6 +322,7 @@
                             <a href="{{ route('admin.dashboard') }}" class="marine-navlink">Admin area</a>
                         @endif
 
+                        <a href="{{ route('observations.create') }}" class="marine-button marine-button--small">New observation</a>
                         <a href="{{ route('home') }}" class="marine-navlink">Home</a>
 
                         <form action="{{ route('logout') }}" method="post" class="marine-inline-form">

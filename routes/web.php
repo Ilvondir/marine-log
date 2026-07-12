@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ObservationController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome')->name('home');
@@ -19,6 +20,12 @@ Route::middleware('guest')->group(function (): void {
 Route::post('/logout', [AuthController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
+
+Route::middleware('auth')->group(function (): void {
+    Route::get('/observations/create', [ObservationController::class, 'create'])->name('observations.create');
+    Route::post('/observations', [ObservationController::class, 'store'])->name('observations.store');
+    Route::get('/observations/{observation}', [ObservationController::class, 'show'])->name('observations.show');
+});
 
 Route::get('/admin', AdminDashboardController::class)
     ->middleware(['auth', 'admin'])
