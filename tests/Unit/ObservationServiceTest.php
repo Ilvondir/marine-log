@@ -8,8 +8,6 @@ use App\Enums\ResourceType;
 use App\Models\Observation;
 use App\Models\Resource;
 use App\Services\ObservationService;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Mockery;
@@ -119,31 +117,145 @@ class ObservationServiceTest extends TestCase
         $this->assertCount(3, $files);
     }
 
-    public function test_get_published_feed_returns_paginated_results(): void
+    public function test_update_observation_modifies_fields(): void
     {
-        $paginator = Mockery::mock(LengthAwarePaginator::class);
+        Storage::fake('public');
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 10;
+
+        $updatedObservation = Mockery::mock(Observation::class)->makePartial();
+        $updatedObservation->id = 10;
 
         $this->observationRepo
-            ->shouldReceive('paginatePublished')
+            ->shouldReceive('update')
             ->once()
-            ->with(12)
-            ->andReturn($paginator);
+            ->with(10, Mockery::on(function (array $data): bool {
+                return $data['species'] === 'Octopus vulgaris'
+                    && $data['location_name'] === 'Updated Bay';
+            }))
+            ->andReturn($updatedObservation);
 
-        $result = $this->service->getPublishedFeed(12);
+        $result = $this->service->updateObservation(
+            observation: $observation,
+            validatedData: [
+                'species' => 'Octopus vulgaris',
+                'observed_at' => '2026-06-01 08:00:00',
+                'latitude' => '36.0000000',
+                'longitude' => '14.0000000',
+                'location_name' => 'Updated Bay',
+            ],
+        );
 
-        $this->assertSame($paginator, $result);
+        $this->assertSame($updatedObservation, $result);
     }
 
-    public function test_find_published_by_id_throws_for_unpublished(): void
+    public function test_update_observation_adds_new_media(): void
     {
+        Storage::fake('public');
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 15;
+
         $this->observationRepo
-            ->shouldReceive('findPublishedById')
+            ->shouldReceive('update')
             ->once()
-            ->with(99)
-            ->andThrow(new ModelNotFoundException);
+            ->andReturn($observation);
 
-        $this->expectException(ModelNotFoundException::class);
+        $this->resourceRepo
+            ->shouldReceive('createForResourceable')
+            ->twice()
+            ->andReturn(new Resource);
 
-        $this->service->findPublishedById(99);
+        $this->service->updateObservation(
+            observation: $observation,
+            validatedData: [
+                'species' => 'Hippocampus kuda',
+                'observed_at' => '2026-05-15 12:00:00',
+                'latitude' => '10.0000000',
+                'longitude' => '100.0000000',
+                'location_name' => 'Seahorse Cove',
+            ],
+            newPhotos: [
+                UploadedFile::fake()->image('seahorse1.jpg'),
+                UploadedFile::fake()->image('seahorse2.png'),
+            ],
+        );
+
+        $files = Storage::disk('public')->allFiles('observations/15');
+        $this->assertCount(2, $files);
+    }
+
+    public function test_update_observation_removes_specified_resources(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('observations/20/old.jpg', 'data');
+
+        $resourceToRemove = Mockery::mock(Resource::class)->makePartial();
+        $resourceToRemove->id = 99;
+        $resourceToRemove->path = 'observations/20/old.jpg';
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 20;
+
+        $resourcesRelation = Mockery::mock(\Illuminate\Database\Eloquent\Relations\MorphMany::class);
+        $resourcesRelation->shouldReceive('whereIn')->with('id', [99])->andReturnSelf();
+        $resourcesRelation->shouldReceive('get')->andReturn(collect([$resourceToRemove]));
+        $observation->shouldReceive('resources')->andReturn($resourcesRelation);
+
+        $this->resourceRepo
+            ->shouldReceive('deleteById')
+            ->once()
+            ->with(99);
+
+        $this->observationRepo
+            ->shouldReceive('update')
+            ->once()
+            ->andReturn($observation);
+
+        $this->service->updateObservation(
+            observation: $observation,
+            validatedData: [
+                'species' => 'Rhincodon typus',
+                'observed_at' => '2026-04-01 06:00:00',
+                'latitude' => '-5.0000000',
+                'longitude' => '39.0000000',
+                'location_name' => 'Whale Shark Alley',
+            ],
+            removeResourceIds: [99],
+        );
+
+        Storage::disk('public')->assertMissing('observations/20/old.jpg');
+    }
+
+    public function test_delete_observation_removes_record_and_files(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('observations/30/photo.jpg', 'data');
+        Storage::disk('public')->put('observations/30/video.mp4', 'data');
+
+        $resourcesRelation = Mockery::mock(\Illuminate\Database\Eloquent\Relations\MorphMany::class);
+        $resourcesRelation->shouldReceive('pluck')
+            ->with('path')
+            ->andReturn(collect(['observations/30/photo.jpg', 'observations/30/video.mp4']));
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 30;
+        $observation->shouldReceive('resources')->andReturn($resourcesRelation);
+
+        $this->resourceRepo
+            ->shouldReceive('deleteForResourceable')
+            ->once()
+            ->with($observation);
+
+        $this->observationRepo
+            ->shouldReceive('delete')
+            ->once()
+            ->with(30);
+
+        $this->service->deleteObservation($observation);
+
+        Storage::disk('public')->assertMissing('observations/30/photo.jpg');
+        Storage::disk('public')->assertMissing('observations/30/video.mp4');
     }
 }

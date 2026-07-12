@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreObservationRequest;
+use App\Http\Requests\UpdateObservationRequest;
+use App\Models\Observation;
 use App\Services\ObservationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -53,10 +55,60 @@ class ObservationController extends Controller
     /**
      * Display the specified published observation.
      */
-    public function show(int $observation): View
+    public function show(Observation $observation): View
     {
-        $observation = $this->observationService->findPublishedById($observation);
+        abort_unless($observation->published_at !== null, 404);
+
+        $observation->load(['user', 'resources']);
 
         return view('observations.show', compact('observation'));
+    }
+
+    /**
+     * Show the form for editing the specified observation.
+     */
+    public function edit(Observation $observation): View
+    {
+        $this->authorize('update', $observation);
+
+        $observation->load('resources');
+
+        return view('observations.edit', compact('observation'));
+    }
+
+    /**
+     * Update the specified observation in storage.
+     */
+    public function update(UpdateObservationRequest $request, Observation $observation): RedirectResponse
+    {
+        $this->authorize('update', $observation);
+
+        $validated = $request->validated();
+
+        $this->observationService->updateObservation(
+            observation: $observation,
+            validatedData: $validated,
+            newPhotos: $validated['photos'] ?? [],
+            newVideos: $validated['videos'] ?? [],
+            removeResourceIds: array_map('intval', $validated['remove_resources'] ?? []),
+        );
+
+        return redirect()
+            ->route('observations.show', $observation)
+            ->with('success', 'Observation updated successfully.');
+    }
+
+    /**
+     * Remove the specified observation from storage.
+     */
+    public function destroy(Observation $observation): RedirectResponse
+    {
+        $this->authorize('delete', $observation);
+
+        $this->observationService->deleteObservation($observation);
+
+        return redirect()
+            ->route('home')
+            ->with('success', 'Observation deleted successfully.');
     }
 }

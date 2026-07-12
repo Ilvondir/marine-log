@@ -21,14 +21,19 @@ Route::post('/logout', [AuthController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-// Authenticated observation routes (registered before wildcard to avoid conflict)
+// Public observation routes (no auth required)
+Route::get('/observations', [ObservationController::class, 'index'])->name('observations.index');
+
+// Authenticated observation routes (before wildcard to avoid conflict)
 Route::middleware('auth')->group(function (): void {
     Route::get('/observations/create', [ObservationController::class, 'create'])->name('observations.create');
     Route::post('/observations', [ObservationController::class, 'store'])->name('observations.store');
+    Route::get('/observations/{observation}/edit', [ObservationController::class, 'edit'])->name('observations.edit');
+    Route::put('/observations/{observation}', [ObservationController::class, 'update'])->name('observations.update');
+    Route::delete('/observations/{observation}', [ObservationController::class, 'destroy'])->name('observations.destroy');
 });
 
-// Public observation routes (no auth required)
-Route::get('/observations', [ObservationController::class, 'index'])->name('observations.index');
+// Public show (after /create to avoid wildcard conflict)
 Route::get('/observations/{observation}', [ObservationController::class, 'show'])->name('observations.show');
 
 Route::get('/admin', AdminDashboardController::class)

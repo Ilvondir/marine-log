@@ -32,7 +32,7 @@ MarineLog ma pomóc nurkom-amatorom dokumentować spotkania ze zwierzętami wodn
 | F-01 | auth-foundation | (foundation) e-mail/password auth scaffold landed; user/admin access checks are available for later slices | — | FR-002, FR-004, FR-005, FR-006 | done |
 | S-01 | public-observation-feed | browse public observations without logging in | — | FR-001 | implemented |
 | S-02 | publish-observation-flow | create and publish an observation with species, date/time, location, and at least one photo | F-01 | US-01, FR-002, FR-003 | implemented |
-| S-03 | own-observation-management | edit or delete their own observation | F-01, S-02 | FR-004 | proposed |
+| S-03 | own-observation-management | edit or delete their own observation | F-01, S-02 | FR-004 | implemented |
 | S-04 | admin-moderation-access | moderate or delete any observation and block user accounts | F-01, S-02 | FR-005, FR-006 | proposed |
 
 ## Streams
@@ -107,7 +107,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Do this after the create/publish path so ownership checks and the observation model are already real, which avoids reworking the same persistence and policy code twice.
-- **Status:** proposed
+- **Status:** implemented
 
 ### S-04: Admin moderation access
 
@@ -128,7 +128,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | F-01 | auth-foundation | Auth scaffold and role checks | done | Completed 2026-07-12 |
 | S-01 | public-observation-feed | Public observation feed | yes | Run `/10x-plan public-observation-feed` |
 | S-02 | publish-observation-flow | Publish observation flow | yes | F-01 done; run `/10x-plan publish-observation-flow` |
-| S-03 | own-observation-management | Own observation management | no | Depends on publish slice |
+| S-03 | own-observation-management | Own observation management | yes | Implemented |
 | S-04 | admin-moderation-access | Admin moderation and account blocking | no | Depends on publish slice |
 
 ## Open Roadmap Questions
@@ -149,3 +149,4 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | ID | Change ID | Completed |
 |---|---|---|
 | F-01 | auth-foundation | 2026-07-12 |
+| S-03 | own-observation-management | 2026-07-12 |
