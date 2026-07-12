@@ -29,9 +29,9 @@ MarineLog ma pomóc nurkom-amatorom dokumentować spotkania ze zwierzętami wodn
 
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
-| F-01 | auth-foundation | (foundation) e-mail/password auth scaffold landed; user/admin access checks are available for later slices | — | FR-002, FR-004, FR-005, FR-006 | ready |
+| F-01 | auth-foundation | (foundation) e-mail/password auth scaffold landed; user/admin access checks are available for later slices | — | FR-002, FR-004, FR-005, FR-006 | done |
 | S-01 | public-observation-feed | browse public observations without logging in | — | FR-001 | ready |
-| S-02 | publish-observation-flow | create and publish an observation with species, date/time, location, and at least one photo | F-01 | US-01, FR-002, FR-003 | proposed |
+| S-02 | publish-observation-flow | create and publish an observation with species, date/time, location, and at least one photo | F-01 | US-01, FR-002, FR-003 | ready |
 | S-03 | own-observation-management | edit or delete their own observation | F-01, S-02 | FR-004 | proposed |
 | S-04 | admin-moderation-access | moderate or delete any observation and block user accounts | F-01, S-02 | FR-005, FR-006 | proposed |
 
@@ -69,7 +69,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Keep this to the minimum contract the later slices need so the publish flow does not get buried under a full account-platform detour.
-- **Status:** ready
+- **Status:** done
 
 ## Slices
 
@@ -125,11 +125,11 @@ Foundations below assume these are present and do NOT re-scaffold them.
 
 | Roadmap ID | Change ID | Suggested issue title | Ready for `/10x-plan` | Notes |
 |---|---|---|---|---|
-| F-01 | auth-foundation | Auth scaffold and role checks | yes | Run `/10x-plan auth-foundation` |
+| F-01 | auth-foundation | Auth scaffold and role checks | done | Completed 2026-07-12 |
 | S-01 | public-observation-feed | Public observation feed | yes | Run `/10x-plan public-observation-feed` |
-| S-02 | publish-observation-flow | Publish observation flow | no | Depends on auth foundation |
-| S-03 | own-observation-management | Own observation management | no | Depends on auth + publish slices |
-| S-04 | admin-moderation-access | Admin moderation and account blocking | no | Depends on auth + publish slices |
+| S-02 | publish-observation-flow | Publish observation flow | yes | F-01 done; run `/10x-plan publish-observation-flow` |
+| S-03 | own-observation-management | Own observation management | no | Depends on publish slice |
+| S-04 | admin-moderation-access | Admin moderation and account blocking | no | Depends on publish slice |
 
 ## Open Roadmap Questions
 
@@ -145,3 +145,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **MVP nie obejmuje osobnej aplikacji mobilnej** — Why parked: pierwszą powierzchnią produktu jest aplikacja webowa.
 
 ## Done
+
+| ID | Change ID | Completed |
+|---|---|---|
+| F-01 | auth-foundation | 2026-07-12 |

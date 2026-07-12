@@ -236,33 +236,33 @@ The existing `users` table already supports the auth foundation, so the migratio
 
 #### Manual
 
-- [ ] 1.3 The landing page reads as MarineLog, not default Laravel
-- [ ] 1.4 The marine theme is visible on desktop and mobile
-- [ ] 1.5 Auth entry points are discoverable from the public page
+- [x] 1.3 The landing page reads as MarineLog, not default Laravel
+- [x] 1.4 The marine theme is visible on desktop and mobile
+- [x] 1.5 Auth entry points are discoverable from the public page
 
 ### Phase 2: Registration, Login, Logout, and Roles
 
 #### Automated
 
-- [ ] 2.1 A user can register, sign in, and sign out in feature tests
-- [ ] 2.2 Regular users are denied admin-only access in feature tests
-- [ ] 2.3 The seeded admin exists after database seeding
+- [x] 2.1 A user can register, sign in, and sign out in feature tests
+- [x] 2.2 Regular users are denied admin-only access in feature tests
+- [x] 2.3 The seeded admin exists after database seeding
 
 #### Manual
 
-- [ ] 2.4 A new account can be created without touching the database manually
-- [ ] 2.5 A seeded admin can sign in and reach admin-only areas
-- [ ] 2.6 Regular users cannot access admin-only screens
+- [x] 2.4 A new account can be created without touching the database manually
+- [x] 2.5 A seeded admin can sign in and reach admin-only areas
+- [x] 2.6 Regular users cannot access admin-only screens
 
 ### Phase 3: Auth Coverage and Verification
 
 #### Automated
 
-- [ ] 3.1 Auth feature tests pass
-- [ ] 3.2 Role access tests pass
-- [ ] 3.3 The default application test suite remains green
+- [x] 3.1 Auth feature tests pass
+- [x] 3.2 Role access tests pass
+- [x] 3.3 The default application test suite remains green
 
 #### Manual
 
-- [ ] 3.4 The auth scaffold behaves consistently after database reset and reseed
-- [ ] 3.5 English-only UI copy remains intact across the main auth screens
+- [x] 3.4 The auth scaffold behaves consistently after database reset and reseed
+- [x] 3.5 English-only UI copy remains intact across the main auth screens

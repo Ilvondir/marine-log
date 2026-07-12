@@ -16,6 +16,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        if (app()->environment('production')) {
+            $this->command?->warn('Skipping seed in production.');
+
+            return;
+        }
+
         Role::query()->firstOrCreate([
             'name' => Role::USER,
         ]);
