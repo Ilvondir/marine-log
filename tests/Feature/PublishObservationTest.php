@@ -198,4 +198,178 @@ class PublishObservationTest extends TestCase
         $this->assertGreaterThan(0, $resource->size_bytes);
         $this->assertEquals(0, $resource->sort_order);
     }
+
+    // === VALIDATION BOUNDARY TESTS ===
+
+    public function test_publish_fails_with_invalid_longitude(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(['longitude' => '181.0000000']),
+            ['photos' => [UploadedFile::fake()->image('photo.jpg')]]
+        ));
+
+        $response->assertSessionHasErrors('longitude');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_fails_with_negative_out_of_range_latitude(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(['latitude' => '-91.0000000']),
+            ['photos' => [UploadedFile::fake()->image('photo.jpg')]]
+        ));
+
+        $response->assertSessionHasErrors('latitude');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_accepts_boundary_coordinates(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(['latitude' => '90.0000000', 'longitude' => '-180.0000000']),
+            ['photos' => [UploadedFile::fake()->image('photo.jpg', 800, 600)]]
+        ));
+
+        $response->assertSessionDoesntHaveErrors(['latitude', 'longitude']);
+        $this->assertDatabaseCount('observations', 1);
+    }
+
+    public function test_publish_fails_with_invalid_photo_mime_type(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(),
+            ['photos' => [UploadedFile::fake()->create('animation.gif', 500, 'image/gif')]]
+        ));
+
+        $response->assertSessionHasErrors('photos.0');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_fails_with_oversized_video(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(),
+            [
+                'photos' => [UploadedFile::fake()->image('photo.jpg', 800, 600)],
+                'videos' => [UploadedFile::fake()->create('huge.mp4', 103000, 'video/mp4')],
+            ]
+        ));
+
+        $response->assertSessionHasErrors('videos.0');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_fails_with_invalid_video_mime_type(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(),
+            [
+                'photos' => [UploadedFile::fake()->image('photo.jpg', 800, 600)],
+                'videos' => [UploadedFile::fake()->create('clip.avi', 5000, 'video/x-msvideo')],
+            ]
+        ));
+
+        $response->assertSessionHasErrors('videos.0');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_fails_with_description_exceeding_max_length(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(['description' => str_repeat('a', 5001)]),
+            ['photos' => [UploadedFile::fake()->image('photo.jpg', 800, 600)]]
+        ));
+
+        $response->assertSessionHasErrors('description');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_fails_with_water_temperature_below_minimum(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(['water_temperature' => '-6']),
+            ['photos' => [UploadedFile::fake()->image('photo.jpg', 800, 600)]]
+        ));
+
+        $response->assertSessionHasErrors('water_temperature');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_fails_with_depth_meters_exceeding_maximum(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(['depth_meters' => '501']),
+            ['photos' => [UploadedFile::fake()->image('photo.jpg', 800, 600)]]
+        ));
+
+        $response->assertSessionHasErrors('depth_meters');
+        $this->assertDatabaseCount('observations', 0);
+    }
+
+    public function test_publish_accepts_webp_photo(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(),
+            ['photos' => [UploadedFile::fake()->image('coral.webp', 800, 600)]]
+        ));
+
+        $response->assertSessionDoesntHaveErrors();
+        $this->assertDatabaseCount('observations', 1);
+
+        $observation = Observation::query()->first();
+        $this->assertCount(1, $observation->photos);
+    }
+
+    public function test_publish_stores_multiple_photos_with_correct_sort_order(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $this->actingAs($user)->post(route('observations.store'), array_merge(
+            $this->validData(),
+            ['photos' => [
+                UploadedFile::fake()->image('first.jpg', 800, 600),
+                UploadedFile::fake()->image('second.jpg', 800, 600),
+                UploadedFile::fake()->image('third.jpg', 800, 600),
+            ]]
+        ));
+
+        $observation = Observation::query()->first();
+        $photos = $observation->photos()->orderBy('sort_order')->get();
+
+        $this->assertCount(3, $photos);
+        $this->assertEquals(0, $photos[0]->sort_order);
+        $this->assertEquals(1, $photos[1]->sort_order);
+        $this->assertEquals(2, $photos[2]->sort_order);
+    }
 }

@@ -242,4 +242,133 @@ class ManageObservationTest extends TestCase
         $response->assertRedirect(route('login'));
         $this->assertDatabaseHas('observations', ['id' => $observation->id]);
     }
+
+    // === VALIDATION BOUNDARY TESTS (UPDATE) ===
+
+    public function test_update_fails_with_invalid_photo_mime_type(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+        $observation = $this->createObservationWithPhoto($user);
+
+        $response = $this->actingAs($user)->put(
+            route('observations.update', $observation),
+            array_merge(
+                $this->validUpdateData(),
+                ['photos' => [UploadedFile::fake()->create('animation.gif', 500, 'image/gif')]]
+            )
+        );
+
+        $response->assertSessionHasErrors('photos.0');
+    }
+
+    public function test_update_fails_with_oversized_new_photo(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+        $observation = $this->createObservationWithPhoto($user);
+
+        $response = $this->actingAs($user)->put(
+            route('observations.update', $observation),
+            array_merge(
+                $this->validUpdateData(),
+                ['photos' => [UploadedFile::fake()->image('huge.jpg')->size(11000)]]
+            )
+        );
+
+        $response->assertSessionHasErrors('photos.0');
+    }
+
+    public function test_owner_can_add_and_remove_photos_simultaneously(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+        $observation = Observation::factory()->create(['user_id' => $user->id]);
+
+        $photo1 = Resource::factory()->create([
+            'resourceable_id' => $observation->id,
+            'resourceable_type' => Observation::class,
+            'path' => "observations/{$observation->id}/photo1.jpg",
+        ]);
+        Resource::factory()->create([
+            'resourceable_id' => $observation->id,
+            'resourceable_type' => Observation::class,
+            'path' => "observations/{$observation->id}/photo2.jpg",
+        ]);
+
+        Storage::disk('public')->put($photo1->path, 'fake-image-data');
+
+        $response = $this->actingAs($user)->put(
+            route('observations.update', $observation),
+            array_merge(
+                $this->validUpdateData(),
+                [
+                    'remove_resources' => [$photo1->id],
+                    'photos' => [UploadedFile::fake()->image('new_photo.jpg', 800, 600)],
+                ]
+            )
+        );
+
+        $response->assertRedirect();
+        // 2 existing - 1 removed + 1 added = 2 total
+        $this->assertCount(2, $observation->fresh()->photos);
+        $this->assertDatabaseMissing('resources', ['id' => $photo1->id]);
+    }
+
+    public function test_remove_resources_ignores_ids_not_belonging_to_observation(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+
+        $observationA = $this->createObservationWithPhoto($user);
+        $observationB = Observation::factory()->create(['user_id' => $user->id]);
+        $photoBelongingToB = Resource::factory()->create([
+            'resourceable_id' => $observationB->id,
+            'resourceable_type' => Observation::class,
+            'path' => "observations/{$observationB->id}/photo_b.jpg",
+        ]);
+
+        Storage::disk('public')->put($photoBelongingToB->path, 'fake-image-data');
+
+        $response = $this->actingAs($user)->put(
+            route('observations.update', $observationA),
+            array_merge(
+                $this->validUpdateData(),
+                ['remove_resources' => [$photoBelongingToB->id]]
+            )
+        );
+
+        $response->assertRedirect();
+        // B's photo should remain untouched
+        $this->assertDatabaseHas('resources', ['id' => $photoBelongingToB->id]);
+        Storage::disk('public')->assertExists($photoBelongingToB->path);
+    }
+
+    public function test_update_fails_with_water_temperature_above_maximum(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+        $observation = $this->createObservationWithPhoto($user);
+
+        $response = $this->actingAs($user)->put(
+            route('observations.update', $observation),
+            $this->validUpdateData(['water_temperature' => '51'])
+        );
+
+        $response->assertSessionHasErrors('water_temperature');
+    }
+
+    public function test_update_fails_with_negative_depth(): void
+    {
+        Storage::fake('public');
+        $user = User::factory()->create();
+        $observation = $this->createObservationWithPhoto($user);
+
+        $response = $this->actingAs($user)->put(
+            route('observations.update', $observation),
+            $this->validUpdateData(['depth_meters' => '-1'])
+        );
+
+        $response->assertSessionHasErrors('depth_meters');
+    }
 }

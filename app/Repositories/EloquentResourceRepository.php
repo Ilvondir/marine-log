@@ -18,7 +18,7 @@ class EloquentResourceRepository implements ResourceRepositoryInterface
     public function createForResourceable(Model $resourceable, array $data): Resource
     {
         try {
-            /** @var Resource */
+            /** @var resource */
             return $resourceable->morphMany(Resource::class, 'resourceable')->create($data);
         } catch (\Throwable $e) {
             Log::error('Repository operation failed.', [

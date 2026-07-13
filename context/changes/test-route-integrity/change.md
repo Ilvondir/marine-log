@@ -1,0 +1,12 @@
+---
+change_id: test-route-integrity
+title: Prove all routes resolve correctly and access levels hold after changes
+status: new
+created: 2026-07-13
+updated: 2026-07-13
+archived_at: null
+---
+
+## Notes
+
+Phase 2 of the test plan rollout. Covers Risk #3 (route ordering/collision breaks existing endpoints) and Risk #6 (guest sees unpublished observation via direct URL). Adds route resolution and access control tests.

@@ -8,6 +8,7 @@ use App\Enums\ResourceType;
 use App\Models\Observation;
 use App\Models\Resource;
 use App\Services\ObservationService;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Mockery;
@@ -198,7 +199,7 @@ class ObservationServiceTest extends TestCase
         $observation = Mockery::mock(Observation::class)->makePartial();
         $observation->id = 20;
 
-        $resourcesRelation = Mockery::mock(\Illuminate\Database\Eloquent\Relations\MorphMany::class);
+        $resourcesRelation = Mockery::mock(MorphMany::class);
         $resourcesRelation->shouldReceive('whereIn')->with('id', [99])->andReturnSelf();
         $resourcesRelation->shouldReceive('get')->andReturn(collect([$resourceToRemove]));
         $observation->shouldReceive('resources')->andReturn($resourcesRelation);
@@ -234,7 +235,7 @@ class ObservationServiceTest extends TestCase
         Storage::disk('public')->put('observations/30/photo.jpg', 'data');
         Storage::disk('public')->put('observations/30/video.mp4', 'data');
 
-        $resourcesRelation = Mockery::mock(\Illuminate\Database\Eloquent\Relations\MorphMany::class);
+        $resourcesRelation = Mockery::mock(MorphMany::class);
         $resourcesRelation->shouldReceive('pluck')
             ->with('path')
             ->andReturn(collect(['observations/30/photo.jpg', 'observations/30/video.mp4']));
@@ -257,5 +258,97 @@ class ObservationServiceTest extends TestCase
 
         Storage::disk('public')->assertMissing('observations/30/photo.jpg');
         Storage::disk('public')->assertMissing('observations/30/video.mp4');
+    }
+
+    public function test_publish_observation_sets_sort_order_sequentially(): void
+    {
+        Storage::fake('public');
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 50;
+
+        $this->observationRepo
+            ->shouldReceive('create')
+            ->once()
+            ->andReturn($observation);
+
+        $this->resourceRepo
+            ->shouldReceive('createForResourceable')
+            ->once()
+            ->with($observation, Mockery::on(fn (array $data): bool => $data['sort_order'] === 0))
+            ->andReturn(new Resource);
+
+        $this->resourceRepo
+            ->shouldReceive('createForResourceable')
+            ->once()
+            ->with($observation, Mockery::on(fn (array $data): bool => $data['sort_order'] === 1))
+            ->andReturn(new Resource);
+
+        $this->resourceRepo
+            ->shouldReceive('createForResourceable')
+            ->once()
+            ->with($observation, Mockery::on(fn (array $data): bool => $data['sort_order'] === 2))
+            ->andReturn(new Resource);
+
+        $this->service->publishObservation(
+            userId: 1,
+            validatedData: [
+                'species' => 'Sepia officinalis',
+                'observed_at' => '2026-06-10 14:30:00',
+                'latitude' => '43.0000000',
+                'longitude' => '3.0000000',
+                'location_name' => 'Mediterranean Coast',
+            ],
+            photos: [
+                UploadedFile::fake()->image('photo1.jpg'),
+                UploadedFile::fake()->image('photo2.jpg'),
+                UploadedFile::fake()->image('photo3.jpg'),
+            ],
+        );
+    }
+
+    public function test_remove_resources_only_deletes_observation_owned_resources(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('observations/40/owned.jpg', 'data');
+
+        $ownedResource = Mockery::mock(Resource::class)->makePartial();
+        $ownedResource->id = 101;
+        $ownedResource->path = 'observations/40/owned.jpg';
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 40;
+
+        // The service scopes resource IDs through the observation's resources relation.
+        // Even if we pass [101, 999], the relation query only returns 101 (the owned one).
+        $resourcesRelation = Mockery::mock(MorphMany::class);
+        $resourcesRelation->shouldReceive('whereIn')->with('id', [101, 999])->andReturnSelf();
+        $resourcesRelation->shouldReceive('get')->andReturn(collect([$ownedResource]));
+        $observation->shouldReceive('resources')->andReturn($resourcesRelation);
+
+        // Only the owned resource (101) should be deleted — 999 is silently ignored
+        $this->resourceRepo
+            ->shouldReceive('deleteById')
+            ->once()
+            ->with(101);
+
+        $this->observationRepo
+            ->shouldReceive('update')
+            ->once()
+            ->andReturn($observation);
+
+        $this->service->updateObservation(
+            observation: $observation,
+            validatedData: [
+                'species' => 'Octopus vulgaris',
+                'observed_at' => '2026-05-20 09:00:00',
+                'latitude' => '36.0000000',
+                'longitude' => '14.0000000',
+                'location_name' => 'Malta Reef',
+            ],
+            removeResourceIds: [101, 999],
+        );
+
+        Storage::disk('public')->assertMissing('observations/40/owned.jpg');
     }
 }

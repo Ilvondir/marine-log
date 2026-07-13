@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   && docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd \
   && rm -rf /var/lib/apt/lists/*
 
+COPY docker/php.production.ini /usr/local/etc/php/conf.d/99-production.ini
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 COPY composer.json composer.lock ./
