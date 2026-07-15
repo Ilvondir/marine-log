@@ -6,7 +6,7 @@
 >
 > Refresh: re-run `/10x-test-plan --refresh` when stale (see §8).
 >
-> Last updated: 2026-07-13
+> Last updated: 2026-07-15
 
 ## 1. Strategy
 
@@ -56,6 +56,13 @@ research's job, see §1 principle #3).
 | #4 | Uploaded photo URL returns 200 with image content when accessed via public URL | "File stored = file accessible" — storage and public accessibility are separate steps (store vs symlink vs URL generation) | Storage disk config, symlink presence check, URL generation method | Feature test (upload + HTTP GET on generated URL) | Mocking Storage in the test — hides the real symlink/path problem |
 | #5 | Submission with each boundary value (max size, invalid mime, future date, out-of-range coords) is rejected with specific validation error | "Required fields checked = validation works" — required is not boundary; oversized file passes `required` but should fail `max` | Exact validation rules in FormRequest, PHP upload_max_filesize, Laravel file validation behavior | Feature test (parameterized invalid inputs) | Testing only "missing field" without testing "present but invalid" |
 | #6 | GET `/observations/{unpublished_id}` returns 404 for guest AND for non-owner auth user | "scopePublished on index = safe" — show route might bypass scope if using plain findOrFail | Show action implementation, whether it uses findPublishedById or plain find | Feature test (access unpublished by ID) | Testing only the index page without testing direct-access-by-ID |
+| #7 | Non-admin user executes admin moderation actions (delete/unpublish observations, block users) via direct HTTP request to admin endpoints | High | Medium | PRD FR-005/FR-006 (admin-only), S-04 implementation (admin-moderation-area), interview Q3 (role boundary confidence gap) |
+
+### Risk Response Guidance (continued)
+
+| Risk | What would prove protection | Must challenge | Context `/10x-research` must ground | Likely cheapest layer | Anti-pattern to avoid |
+|------|----------------------------|----------------|--------------------------------------|----------------------|----------------------|
+| #7 | Guest gets redirect, regular user gets 403, admin gets 200 on every admin endpoint; blocked user is forced to logout; admin cannot block self/other admin | "admin middleware on group = all routes protected" — middleware on group covers only routes registered inside; a typo or misplaced route breaks it. Also: service guards (self-block, admin-block) are logic, not HTTP middleware | Admin route group structure, middleware registration order, AdminService guard logic, EnsureUserIsNotBlocked middleware placement | Feature test (multi-actor access matrix) | Testing only "user gets 403 on dashboard" without testing each moderation action separately |
 
 ## 3. Phased Rollout
 
@@ -69,6 +76,7 @@ orchestrator updates Status as artifacts appear on disk.
 | 2 | Route integrity and access control | Prove all routes resolve correctly and access levels hold after changes | #3, #6 | Integration/Feature tests (route resolution + unauthorized access) | complete | context/changes/test-route-integrity |
 | 3 | Storage and media integrity | Prove uploaded media is accessible via public URL end-to-end | #4 | Feature test (real disk, symlink verification) | complete | context/changes/test-storage-integrity |
 | 4 | Quality gates wiring | Lock the floor in CI — tests run on every PR, lint + typecheck gate | cross-cutting | CI gates (GitHub Actions) | complete | context/changes/test-quality-gates |
+| 5 | Admin moderation boundary | Prove admin endpoints reject unauthorized access and service guards prevent privilege abuse | #7 | Feature tests (multi-actor access matrix) + Unit tests (AdminService guards) | not started | context/changes/test-admin-boundary |
 
 ## 4. Stack
 
