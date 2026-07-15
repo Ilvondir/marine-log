@@ -76,7 +76,7 @@ orchestrator updates Status as artifacts appear on disk.
 | 2 | Route integrity and access control | Prove all routes resolve correctly and access levels hold after changes | #3, #6 | Integration/Feature tests (route resolution + unauthorized access) | complete | context/changes/test-route-integrity |
 | 3 | Storage and media integrity | Prove uploaded media is accessible via public URL end-to-end | #4 | Feature test (real disk, symlink verification) | complete | context/changes/test-storage-integrity |
 | 4 | Quality gates wiring | Lock the floor in CI — tests run on every PR, lint + typecheck gate | cross-cutting | CI gates (GitHub Actions) | complete | context/changes/test-quality-gates |
-| 5 | Admin moderation boundary | Prove admin endpoints reject unauthorized access and service guards prevent privilege abuse | #7 | Feature tests (multi-actor access matrix) + Unit tests (AdminService guards) | not started | context/changes/test-admin-boundary |
+| 5 | Admin moderation boundary | Prove admin endpoints reject unauthorized access and service guards prevent privilege abuse | #7 | Feature tests (multi-actor access matrix) + Unit tests (AdminService guards) | complete | context/changes/test-admin-boundary |
 
 ## 4. Stack
 
