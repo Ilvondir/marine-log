@@ -3,6 +3,8 @@
 @section('title', 'Admin — Users')
 
 @section('content')
+@include('admin.partials.navigation')
+
 <div class="max-w-6xl mx-auto py-8 px-4">
     <h1 class="text-2xl font-bold mb-6">All Users</h1>
 

@@ -474,15 +474,15 @@ Admin panel views — dashboard z navigation, lista obserwacji, lista użytkowni
 
 #### Automated
 
-- [ ] 4.1 Create AdminUserController with index/block/unblock
-- [ ] 4.2 Add user management routes to admin group
-- [ ] 4.3 Feature tests pass for admin user endpoints
-- [ ] 4.4 Blocked user forced logout test passes
-- [ ] 4.5 Pint passes
+- [x] 4.1 Create AdminUserController with index/block/unblock — 2853544
+- [x] 4.2 Add user management routes to admin group — 2853544
+- [x] 4.3 Feature tests pass for admin user endpoints — 2853544
+- [x] 4.4 Blocked user forced logout test passes — 2853544
+- [x] 4.5 Pint passes — 2853544
 
 #### Manual
 
-- [ ] 4.6 Admin can navigate to /admin/users and manage accounts
+- [x] 4.6 Admin can navigate to /admin/users and manage accounts — 2853544
 
 ### Phase 5: Blade Views
 
