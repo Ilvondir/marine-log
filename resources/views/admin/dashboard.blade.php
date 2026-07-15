@@ -5,30 +5,29 @@
 @section('content')
     @include('admin.partials.navigation')
 
-    <div class="max-w-6xl mx-auto py-8 px-4">
-        <h1 class="text-2xl font-bold mb-6">Operations Harbor</h1>
+    <p class="marine-kicker">Admin area</p>
+    <h1 style="font-size: clamp(1.8rem, 4vw, 2.5rem); margin: 0.5rem 0 2rem;">Operations Harbor</h1>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-            <div class="bg-white border rounded-lg p-4 shadow-sm">
-                <p class="text-gray-500 text-sm">Total Observations</p>
-                <p class="text-3xl font-bold">{{ \App\Models\Observation::count() }}</p>
-            </div>
-            <div class="bg-white border rounded-lg p-4 shadow-sm">
-                <p class="text-gray-500 text-sm">Total Users</p>
-                <p class="text-3xl font-bold">{{ \App\Models\User::count() }}</p>
-            </div>
-            <div class="bg-white border rounded-lg p-4 shadow-sm">
-                <p class="text-gray-500 text-sm">Blocked Users</p>
-                <p class="text-3xl font-bold text-red-600">{{ \App\Models\User::whereNotNull('blocked_at')->count() }}</p>
-            </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1.25rem; margin-bottom: 2.5rem;">
+        <div class="marine-hero__panel" style="padding: 1.25rem;">
+            <span class="marine-kicker">Observations</span>
+            <p style="font-size: 2.5rem; font-weight: 800; margin: 0.5rem 0 0;">{{ \App\Models\Observation::count() }}</p>
         </div>
+        <div class="marine-hero__panel" style="padding: 1.25rem;">
+            <span class="marine-kicker">Users</span>
+            <p style="font-size: 2.5rem; font-weight: 800; margin: 0.5rem 0 0;">{{ \App\Models\User::count() }}</p>
+        </div>
+        <div class="marine-hero__panel" style="padding: 1.25rem;">
+            <span class="marine-kicker">Blocked</span>
+            <p style="font-size: 2.5rem; font-weight: 800; margin: 0.5rem 0 0; color: #fca5a5;">{{ \App\Models\User::whereNotNull('blocked_at')->count() }}</p>
+        </div>
+    </div>
 
-        <div class="bg-white border rounded-lg p-4 shadow-sm">
-            <p class="text-gray-500 text-sm mb-2">Quick Links</p>
-            <div class="space-x-4">
-                <a href="{{ route('admin.observations.index') }}" class="text-blue-600 hover:underline">Manage Observations →</a>
-                <a href="{{ route('admin.users.index') }}" class="text-blue-600 hover:underline">Manage Users →</a>
-            </div>
+    <div class="marine-panel" style="max-width: 36rem;">
+        <h2 style="font-size: 1.1rem; margin-bottom: 1rem;">Quick actions</h2>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <a href="{{ route('admin.observations.index') }}" class="marine-button">Manage observations</a>
+            <a href="{{ route('admin.users.index') }}" class="marine-button marine-button--ghost">Manage users</a>
         </div>
     </div>
 @endsection
