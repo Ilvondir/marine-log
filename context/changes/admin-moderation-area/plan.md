@@ -460,15 +460,15 @@ Admin panel views — dashboard z navigation, lista obserwacji, lista użytkowni
 
 #### Automated
 
-- [ ] 3.1 Create AdminObservationController with index/destroy/unpublish
-- [ ] 3.2 Update routes with admin observation routes
-- [ ] 3.3 Feature tests pass for admin observation endpoints
-- [ ] 3.4 Existing admin.dashboard route still works
-- [ ] 3.5 Pint passes
+- [x] 3.1 Create AdminObservationController with index/destroy/unpublish — 3768c56
+- [x] 3.2 Update routes with admin observation routes — 3768c56
+- [x] 3.3 Feature tests pass for admin observation endpoints — 3768c56
+- [x] 3.4 Existing admin.dashboard route still works — 3768c56
+- [x] 3.5 Pint passes — 3768c56
 
 #### Manual
 
-- [ ] 3.6 Admin can navigate to /admin/observations and see list
+- [x] 3.6 Admin can navigate to /admin/observations and see list — 3768c56
 
 ### Phase 4: Admin User Controller + Routes
 

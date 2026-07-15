@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminObservationController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ObservationController;
 use Illuminate\Support\Facades\Route;
@@ -44,4 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/observations', [AdminObservationController::class, 'index'])->name('observations.index');
     Route::delete('/observations/{observation}', [AdminObservationController::class, 'destroy'])->name('observations.destroy');
     Route::patch('/observations/{observation}/unpublish', [AdminObservationController::class, 'unpublish'])->name('observations.unpublish');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/block', [AdminUserController::class, 'block'])->name('users.block');
+    Route::patch('/users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('users.unblock');
 });
