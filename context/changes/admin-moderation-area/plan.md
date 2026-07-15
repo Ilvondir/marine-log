@@ -430,16 +430,16 @@ Admin panel views — dashboard z navigation, lista obserwacji, lista użytkowni
 
 #### Automated
 
-- [x] 1.1 Create migration adding blocked_at to users
-- [x] 1.2 Add isBlocked method and blocked_at cast to User model
-- [x] 1.3 Create EnsureUserIsNotBlocked middleware
-- [x] 1.4 Register middleware in bootstrap/app.php
-- [x] 1.5 Migration applies and rollback works
-- [x] 1.6 Pint passes
+- [x] 1.1 Create migration adding blocked_at to users — 2aaacbd
+- [x] 1.2 Add isBlocked method and blocked_at cast to User model — 2aaacbd
+- [x] 1.3 Create EnsureUserIsNotBlocked middleware — 2aaacbd
+- [x] 1.4 Register middleware in bootstrap/app.php — 2aaacbd
+- [x] 1.5 Migration applies and rollback works — 2aaacbd
+- [x] 1.6 Pint passes — 2aaacbd
 
 #### Manual
 
-- [x] 1.7 Blocked user is forced to logout on next request
+- [x] 1.7 Blocked user is forced to logout on next request — 2aaacbd
 
 ### Phase 2: Repository + Service layer
 

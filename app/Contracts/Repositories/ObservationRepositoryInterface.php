@@ -58,4 +58,11 @@ interface ObservationRepositoryInterface
      * @return LengthAwarePaginator<Observation>
      */
     public function paginateByUser(int $userId, int $perPage = 12): LengthAwarePaginator;
+
+    /**
+     * Paginate all observations (published and unpublished), newest first.
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function paginateAll(int $perPage = 20): LengthAwarePaginator;
 }

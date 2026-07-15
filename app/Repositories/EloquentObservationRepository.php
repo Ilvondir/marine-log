@@ -189,4 +189,30 @@ class EloquentObservationRepository implements ObservationRepositoryInterface
             throw $e;
         }
     }
+
+    /**
+     * Paginate all observations (published and unpublished), newest first.
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function paginateAll(int $perPage = 20): LengthAwarePaginator
+    {
+        try {
+            return Observation::query()
+                ->with(['user', 'photos'])
+                ->latest('created_at')
+                ->paginate($perPage);
+        } catch (\Throwable $e) {
+            Log::error('Repository operation failed.', [
+                'repository' => self::class,
+                'method' => 'paginateAll',
+                'operation' => 'select',
+                'entity_id' => null,
+                'exception' => get_class($e),
+                'message' => $e->getMessage(),
+            ]);
+
+            throw $e;
+        }
+    }
 }
