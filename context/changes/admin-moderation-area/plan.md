@@ -488,17 +488,17 @@ Admin panel views — dashboard z navigation, lista obserwacji, lista użytkowni
 
 #### Automated
 
-- [ ] 5.1 Create admin navigation partial
-- [ ] 5.2 Update admin dashboard with navigation and stats
-- [ ] 5.3 Create admin observations index view
-- [ ] 5.4 Create admin users index view
-- [ ] 5.5 Views compile without Blade errors
-- [ ] 5.6 Full test suite passes (no regression)
-- [ ] 5.7 Pint passes
+- [x] 5.1 Create admin navigation partial — a4264f3
+- [x] 5.2 Update admin dashboard with navigation and stats — a4264f3
+- [x] 5.3 Create admin observations index view — a4264f3
+- [x] 5.4 Create admin users index view — a4264f3
+- [x] 5.5 Views compile without Blade errors — a4264f3
+- [x] 5.6 Full test suite passes (no regression) — a4264f3
+- [x] 5.7 Pint passes — a4264f3
 
 #### Manual
 
-- [ ] 5.8 Admin panel navigation works across all pages
-- [ ] 5.9 Delete confirmation dialog works
-- [ ] 5.10 Block/unblock toggles correctly
-- [ ] 5.11 Admin's own row has no block button
+- [x] 5.8 Admin panel navigation works across all pages — a4264f3
+- [x] 5.9 Delete confirmation dialog works — a4264f3
+- [x] 5.10 Block/unblock toggles correctly — a4264f3
+- [x] 5.11 Admin's own row has no block button — a4264f3
