@@ -48,4 +48,16 @@ class AdminObservationController extends Controller
             ->route('admin.observations.index')
             ->with('success', 'Observation unpublished successfully.');
     }
+
+    /**
+     * Republish a previously unpublished observation.
+     */
+    public function republish(Observation $observation): RedirectResponse
+    {
+        $this->adminService->republishObservation($observation->id);
+
+        return redirect()
+            ->route('admin.observations.index')
+            ->with('success', 'Observation republished successfully.');
+    }
 }

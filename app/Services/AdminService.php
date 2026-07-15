@@ -53,4 +53,14 @@ class AdminService
             'published_at' => null,
         ]);
     }
+
+    /**
+     * Republish an observation by setting published_at to now.
+     */
+    public function republishObservation(int $observationId): Observation
+    {
+        return $this->observationRepository->update($observationId, [
+            'published_at' => now(),
+        ]);
+    }
 }

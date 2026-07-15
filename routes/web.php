@@ -45,6 +45,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/observations', [AdminObservationController::class, 'index'])->name('observations.index');
     Route::delete('/observations/{observation}', [AdminObservationController::class, 'destroy'])->name('observations.destroy');
     Route::patch('/observations/{observation}/unpublish', [AdminObservationController::class, 'unpublish'])->name('observations.unpublish');
+    Route::patch('/observations/{observation}/republish', [AdminObservationController::class, 'republish'])->name('observations.republish');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::patch('/users/{user}/block', [AdminUserController::class, 'block'])->name('users.block');
     Route::patch('/users/{user}/unblock', [AdminUserController::class, 'unblock'])->name('users.unblock');

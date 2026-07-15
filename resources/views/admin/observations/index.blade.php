@@ -53,6 +53,12 @@
                                         @method('PATCH')
                                         <button type="submit" class="marine-table-action">Unpublish</button>
                                     </form>
+                                @else
+                                    <form action="{{ route('admin.observations.republish', $observation) }}" method="POST">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit" class="marine-table-action">Publish</button>
+                                    </form>
                                 @endif
                                 <form action="{{ route('admin.observations.destroy', $observation) }}" method="POST"
                                       onsubmit="return confirm('Delete this observation permanently? This cannot be undone.')">
