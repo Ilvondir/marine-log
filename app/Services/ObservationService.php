@@ -87,6 +87,16 @@ class ObservationService
     }
 
     /**
+     * Get a paginated list of all observations (published and unpublished).
+     *
+     * @return LengthAwarePaginator<Observation>
+     */
+    public function getAllObservations(int $perPage = 20): LengthAwarePaginator
+    {
+        return $this->observationRepository->paginateAll($perPage);
+    }
+
+    /**
      * Update an existing observation, optionally adding/removing media.
      *
      * @param  array<string, mixed>  $validatedData

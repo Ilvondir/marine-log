@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminObservationController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ObservationController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,10 @@ Route::middleware('auth')->group(function (): void {
 // Public show (after /create to avoid wildcard conflict)
 Route::get('/observations/{observation}', [ObservationController::class, 'show'])->name('observations.show');
 
-Route::get('/admin', AdminDashboardController::class)
-    ->middleware(['auth', 'admin'])
-    ->name('admin.dashboard');
+// Admin area
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function (): void {
+    Route::get('/', AdminDashboardController::class)->name('dashboard');
+    Route::get('/observations', [AdminObservationController::class, 'index'])->name('observations.index');
+    Route::delete('/observations/{observation}', [AdminObservationController::class, 'destroy'])->name('observations.destroy');
+    Route::patch('/observations/{observation}/unpublish', [AdminObservationController::class, 'unpublish'])->name('observations.unpublish');
+});

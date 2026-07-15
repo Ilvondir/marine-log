@@ -445,16 +445,16 @@ Admin panel views — dashboard z navigation, lista obserwacji, lista użytkowni
 
 #### Automated
 
-- [ ] 2.1 Create UserRepositoryInterface
-- [ ] 2.2 Create EloquentUserRepository
-- [ ] 2.3 Add paginateAll to ObservationRepositoryInterface and implementation
-- [ ] 2.4 Create AdminService with block/unblock/unpublish
-- [ ] 2.5 Register UserRepository binding in AppServiceProvider
-- [ ] 2.6 Pint passes
+- [x] 2.1 Create UserRepositoryInterface — 4290dc2
+- [x] 2.2 Create EloquentUserRepository — 4290dc2
+- [x] 2.3 Add paginateAll to ObservationRepositoryInterface and implementation — 4290dc2
+- [x] 2.4 Create AdminService with block/unblock/unpublish — 4290dc2
+- [x] 2.5 Register UserRepository binding in AppServiceProvider — 4290dc2
+- [x] 2.6 Pint passes — 4290dc2
 
 #### Manual
 
-- [ ] 2.7 Container resolves UserRepositoryInterface without error
+- [x] 2.7 Container resolves UserRepositoryInterface without error — 4290dc2
 
 ### Phase 3: Admin Observation Controller + Routes
 
