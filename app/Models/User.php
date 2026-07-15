@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-#[Fillable(['role_id', 'name', 'email', 'password'])]
+#[Fillable(['role_id', 'name', 'email', 'password', 'blocked_at'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -29,6 +29,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'blocked_at' => 'datetime',
         ];
     }
 
@@ -48,6 +49,14 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role?->name === Role::ADMIN;
+    }
+
+    /**
+     * Determine if the user account is blocked.
+     */
+    public function isBlocked(): bool
+    {
+        return $this->blocked_at !== null;
     }
 
     /**
