@@ -1,0 +1,13 @@
+{
+  "name": "PHPStan Typecheck on Edit",
+  "version": "1.0.0",
+  "description": "Runs PHPStan static analysis after agent writes a PHP file. Exit code 2 blocks the agent with feedback.",
+  "when": {
+    "type": "postToolUse",
+    "toolTypes": ["write"]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "wsl -d Ubuntu-22.04 -- bash -c \"cd /home/user/10x-project && ./vendor/bin/sail php vendor/bin/phpstan analyse --memory-limit=512M --no-progress 2>&1; code=$?; if [ $code -ne 0 ]; then exit 2; fi\""
+  }
+}

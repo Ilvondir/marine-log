@@ -351,4 +351,37 @@ class ObservationServiceTest extends TestCase
 
         Storage::disk('public')->assertMissing('observations/40/owned.jpg');
     }
+
+    public function test_delete_observation_cleans_up_directory(): void
+    {
+        Storage::fake('public');
+        Storage::disk('public')->put('observations/55/photo.jpg', 'image-data');
+
+        $resourcesRelation = Mockery::mock(MorphMany::class);
+        $resourcesRelation->shouldReceive('pluck')
+            ->with('path')
+            ->andReturn(collect(['observations/55/photo.jpg']));
+
+        $observation = Mockery::mock(Observation::class)->makePartial();
+        $observation->id = 55;
+        $observation->shouldReceive('resources')->andReturn($resourcesRelation);
+
+        $this->resourceRepo
+            ->shouldReceive('deleteForResourceable')
+            ->once()
+            ->with($observation);
+
+        $this->observationRepo
+            ->shouldReceive('delete')
+            ->once()
+            ->with(55);
+
+        $this->service->deleteObservation($observation);
+
+        Storage::disk('public')->assertMissing('observations/55/photo.jpg');
+        $this->assertFalse(
+            Storage::disk('public')->exists('observations/55'),
+            'Observation directory should be removed after deletion'
+        );
+    }
 }

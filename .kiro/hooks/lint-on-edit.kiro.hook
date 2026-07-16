@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Pint Lint on Edit",
+  "description": "Runs Laravel Pint linter after agent writes a PHP file. Exit code 2 blocks the agent with feedback.",
+  "version": "1",
+  "when": {
+    "type": "postToolUse",
+    "toolTypes": [
+      "write"
+    ]
+  },
+  "then": {
+    "type": "runCommand",
+    "command": "wsl -d Ubuntu-22.04 -- bash -c \"cd /home/user/10x-project && ./vendor/bin/sail pint --test --dirty 2>&1; code=$?; if [ $code -ne 0 ]; then exit 2; fi\""
+  }
+}

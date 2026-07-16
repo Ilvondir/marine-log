@@ -110,4 +110,30 @@ class PublicObservationFeedTest extends TestCase
         $response->assertSee('Tursiops truncatus');
         $response->assertSee('Dolphin Bay');
     }
+
+    public function test_my_observations_page_shows_only_own_observations(): void
+    {
+        $owner = User::factory()->create();
+        $other = User::factory()->create();
+
+        $ownPublished = Observation::factory()->create([
+            'user_id' => $owner->id,
+            'species' => 'Chelonia mydas',
+        ]);
+        $ownDraft = Observation::factory()->unpublished()->create([
+            'user_id' => $owner->id,
+            'species' => 'Hippocampus kuda',
+        ]);
+        $otherObservation = Observation::factory()->create([
+            'user_id' => $other->id,
+            'species' => 'Rhincodon typus',
+        ]);
+
+        $response = $this->actingAs($owner)->get(route('observations.my'));
+
+        $response->assertStatus(200);
+        $response->assertSee('Chelonia mydas');
+        $response->assertSee('Hippocampus kuda');
+        $response->assertDontSee('Rhincodon typus');
+    }
 }

@@ -1,0 +1,109 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
+			identifier: generics.lessTypes
+			count: 3
+			path: app/Contracts/Repositories/ObservationRepositoryInterface.php
+
+		-
+			message: '#^Type App\\Models\\Observation in generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\.$#'
+			identifier: generics.notSubtype
+			count: 3
+			path: app/Contracts/Repositories/ObservationRepositoryInterface.php
+
+		-
+			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\User\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Contracts/Repositories/UserRepositoryInterface.php
+
+		-
+			message: '#^Type App\\Models\\User in generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\User\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Contracts/Repositories/UserRepositoryInterface.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: app/Http/Requests/UpdateObservationRequest.php
+
+		-
+			message: '#^Class App\\Models\\Resource referenced with incorrect case\: App\\Models\\resource\.$#'
+			identifier: class.nameCase
+			count: 3
+			path: app/Models/Observation.php
+
+		-
+			message: '#^Method App\\Models\\Observation\:\:resources\(\) should return Illuminate\\Database\\Eloquent\\Relations\\MorphMany\<App\\Models\\Resource, \$this\(App\\Models\\Observation\)\> but returns Illuminate\\Database\\Eloquent\\Relations\\MorphMany\<App\\Models\\Resource, \$this\(App\\Models\\Observation\)\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Models/Observation.php
+
+		-
+			message: '#^Class App\\Models\\Role uses generic trait Illuminate\\Database\\Eloquent\\Factories\\HasFactory but does not specify its types\: TFactory$#'
+			identifier: missingType.generics
+			count: 1
+			path: app/Models/Role.php
+
+		-
+			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
+			identifier: generics.lessTypes
+			count: 3
+			path: app/Repositories/EloquentObservationRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\EloquentObservationRepository\:\:paginateAll\(\) should return Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Observation\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Repositories/EloquentObservationRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\EloquentObservationRepository\:\:paginateByUser\(\) should return Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Observation\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Repositories/EloquentObservationRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\EloquentObservationRepository\:\:paginatePublished\(\) should return Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Observation\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Repositories/EloquentObservationRepository.php
+
+		-
+			message: '#^Type App\\Models\\Observation in generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\.$#'
+			identifier: generics.notSubtype
+			count: 3
+			path: app/Repositories/EloquentObservationRepository.php
+
+		-
+			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\User\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
+			identifier: generics.lessTypes
+			count: 1
+			path: app/Repositories/EloquentUserRepository.php
+
+		-
+			message: '#^Method App\\Repositories\\EloquentUserRepository\:\:paginateAll\(\) should return Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\User\> but returns Illuminate\\Pagination\\LengthAwarePaginator\<int, App\\Models\\User\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Repositories/EloquentUserRepository.php
+
+		-
+			message: '#^Type App\\Models\\User in generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\User\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Repositories/EloquentUserRepository.php
+
+		-
+			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
+			identifier: generics.lessTypes
+			count: 3
+			path: app/Services/ObservationService.php
+
+		-
+			message: '#^Type App\\Models\\Observation in generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\.$#'
+			identifier: generics.notSubtype
+			count: 3
+			path: app/Services/ObservationService.php
