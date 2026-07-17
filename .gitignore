@@ -60,3 +60,10 @@ Homestead.json
 
 # End of https://www.toptal.com/developers/gitignore/api/laravel
 .aider*
+
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+playwright/.auth/

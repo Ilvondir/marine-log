@@ -67,6 +67,22 @@ services:
       retries: 10
       start_period: 10s
 
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.52.0-noble
+    working_dir: /app
+    environment:
+      APP_URL: http://app
+      CI: "true"
+    volumes:
+      - .:/app
+    depends_on:
+      app:
+        condition: service_healthy
+    command: >
+      sh -c "npm ci && npx playwright test"
+    profiles:
+      - e2e
+
 volumes:
   app-storage:
   db_data:

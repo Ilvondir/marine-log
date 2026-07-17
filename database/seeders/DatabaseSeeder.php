@@ -39,5 +39,20 @@ class DatabaseSeeder extends Seeder
                 'email' => 'user@marinelog.test',
             ]);
         }
+
+        // E2E test users (used by Playwright tests in CI)
+        if (! User::query()->where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'E2E Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
+
+        if (! User::query()->where('email', 'idor-attacker@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'IDOR Attacker',
+                'email' => 'idor-attacker@example.com',
+            ]);
+        }
     }
 }
