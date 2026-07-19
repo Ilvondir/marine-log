@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 #[Fillable([
@@ -95,5 +96,15 @@ class Observation extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->whereNotNull('published_at');
+    }
+
+    /**
+     * Get the users who favorited this observation.
+     *
+     * @return BelongsToMany<User, $this>
+     */
+    public function favoritedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
     }
 }
