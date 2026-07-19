@@ -73,6 +73,57 @@ class AdminServiceTest extends TestCase
         $this->service->blockUser($admin, $admin);
     }
 
+    public function test_block_user_sets_blocked_at(): void
+    {
+        $role = new Role;
+        $role->name = Role::ADMIN;
+
+        $admin = new User;
+        $admin->id = 1;
+        $admin->setRelation('role', $role);
+
+        $userRole = new Role;
+        $userRole->name = 'user';
+
+        $target = new User;
+        $target->id = 2;
+        $target->setRelation('role', $userRole);
+
+        $blockedUser = new User;
+        $blockedUser->id = 2;
+        $blockedUser->blocked_at = now();
+
+        $this->userRepository
+            ->shouldReceive('update')
+            ->once()
+            ->with(2, Mockery::on(fn (array $data): bool => isset($data['blocked_at']) && $data['blocked_at'] !== null))
+            ->andReturn($blockedUser);
+
+        $result = $this->service->blockUser($admin, $target);
+
+        $this->assertNotNull($result->blocked_at);
+    }
+
+    public function test_unblock_user_clears_blocked_at(): void
+    {
+        $target = new User;
+        $target->id = 3;
+
+        $unblockedUser = new User;
+        $unblockedUser->id = 3;
+        $unblockedUser->blocked_at = null;
+
+        $this->userRepository
+            ->shouldReceive('update')
+            ->once()
+            ->with(3, ['blocked_at' => null])
+            ->andReturn($unblockedUser);
+
+        $result = $this->service->unblockUser($target);
+
+        $this->assertNull($result->blocked_at);
+    }
+
     public function test_unpublish_observation_calls_repository_with_null_published_at(): void
     {
         $observation = new Observation;

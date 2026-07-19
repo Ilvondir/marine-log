@@ -1,9 +1,9 @@
 ---
 change_id: test-route-integrity
 title: Prove all routes resolve correctly and access levels hold after changes
-status: new
+status: implemented
 created: 2026-07-13
-updated: 2026-07-13
+updated: 2026-07-19
 archived_at: null
 ---
 

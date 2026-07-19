@@ -1,9 +1,9 @@
 ---
 change_id: admin-moderation-area
 title: Admin moderation and account blocking
-status: implemented
+status: impl_reviewed
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-07-19
 archived_at: null
 ---
 

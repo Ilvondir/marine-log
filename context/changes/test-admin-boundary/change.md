@@ -1,9 +1,9 @@
 ---
 change_id: test-admin-boundary
 title: Admin moderation boundary test coverage
-status: implementing
+status: implemented
 created: 2026-07-15
-updated: 2026-07-15
+updated: 2026-07-19
 archived_at: null
 ---
 
