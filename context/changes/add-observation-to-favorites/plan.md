@@ -447,11 +447,11 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [x] 2.1 Create FavoriteRepositoryInterface
-- [x] 2.2 Create EloquentFavoriteRepository
-- [x] 2.3 Create FavoriteService with toggle/query methods
-- [x] 2.4 Register binding in AppServiceProvider
-- [x] 2.5 Pint passes
+- [x] 2.1 Create FavoriteRepositoryInterface — d7ebf7a
+- [x] 2.2 Create EloquentFavoriteRepository — d7ebf7a
+- [x] 2.3 Create FavoriteService with toggle/query methods — d7ebf7a
+- [x] 2.4 Register binding in AppServiceProvider — d7ebf7a
+- [x] 2.5 Pint passes — d7ebf7a
 
 #### Manual
 
@@ -461,10 +461,10 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [ ] 3.1 Create FavoriteController with toggle and index
-- [ ] 3.2 Add routes (before wildcard)
-- [ ] 3.3 Toggle endpoint returns correct JSON
-- [ ] 3.4 Pint passes
+- [x] 3.1 Create FavoriteController with toggle and index
+- [x] 3.2 Add routes (before wildcard)
+- [x] 3.3 Toggle endpoint returns correct JSON
+- [x] 3.4 Pint passes
 
 #### Manual
 
