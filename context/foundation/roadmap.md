@@ -3,7 +3,7 @@ project: MarineLog
 version: 1
 status: draft
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-19
 prd_version: 1
 main_goal: low-complexity
 top_blocker: capacity
@@ -30,10 +30,10 @@ MarineLog ma pomóc nurkom-amatorom dokumentować spotkania ze zwierzętami wodn
 | ID | Change ID | Outcome (user can …) | Prerequisites | PRD refs | Status |
 |---|---|---|---|---|---|
 | F-01 | auth-foundation | (foundation) e-mail/password auth scaffold landed; user/admin access checks are available for later slices | — | FR-002, FR-004, FR-005, FR-006 | done |
-| S-01 | public-observation-feed | browse public observations without logging in | — | FR-001 | implemented |
-| S-02 | publish-observation-flow | create and publish an observation with species, date/time, location, and at least one photo | F-01 | US-01, FR-002, FR-003 | implemented |
-| S-03 | own-observation-management | edit or delete their own observation | F-01, S-02 | FR-004 | implemented |
-| S-04 | admin-moderation-access | moderate or delete any observation and block user accounts | F-01, S-02 | FR-005, FR-006 | proposed |
+| S-01 | public-observation-feed | browse public observations without logging in | — | FR-001 | done |
+| S-02 | publish-observation-flow | create and publish an observation with species, date/time, location, and at least one photo | F-01 | US-01, FR-002, FR-003 | done |
+| S-03 | own-observation-management | edit or delete their own observation | F-01, S-02 | FR-004 | done |
+| S-04 | admin-moderation-access | moderate or delete any observation and block user accounts | F-01, S-02 | FR-005, FR-006 | done |
 
 ## Streams
 
@@ -83,9 +83,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Start here to prove the public read side with the smallest possible slice; if we postpone it, the app's visible surface shrinks to the private publish flow only.
-- **Status:** implemented
-
-### S-02: Publish observations
+- **Status:** done
 
 - **Outcome:** user can create and publish an observation with species, date/time, location, and at least one photo
 - **Change ID:** publish-observation-flow
@@ -95,7 +93,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** This should stay focused on the first end-to-end publish path instead of absorbing edit, moderation, or homepage extras too early.
-- **Status:** implemented
+- **Status:** done
 
 ### S-03: Own observation management
 
@@ -107,7 +105,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Do this after the create/publish path so ownership checks and the observation model are already real, which avoids reworking the same persistence and policy code twice.
-- **Status:** implemented
+- **Status:** done
 
 ### S-04: Admin moderation access
 
@@ -119,7 +117,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Keep privileged controls after the author flow so moderation reuses the same lifecycle and we do not overbuild admin behavior before the core record exists.
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -149,4 +147,7 @@ Foundations below assume these are present and do NOT re-scaffold them.
 | ID | Change ID | Completed |
 |---|---|---|
 | F-01 | auth-foundation | 2026-07-12 |
+| S-01 | public-observation-feed | 2026-07-19 |
+| S-02 | publish-observation-flow | 2026-07-19 |
 | S-03 | own-observation-management | 2026-07-12 |
+| S-04 | admin-moderation-access | 2026-07-19 |
