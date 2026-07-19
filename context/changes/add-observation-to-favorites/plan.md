@@ -433,11 +433,11 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [x] 1.1 Create favorites migration with unique constraint
-- [x] 1.2 Add favorites() relationship to User model
-- [x] 1.3 Add favoritedBy() relationship to Observation model
-- [x] 1.4 Migration applies and rollback works
-- [x] 1.5 Pint passes
+- [x] 1.1 Create favorites migration with unique constraint — 6883f17
+- [x] 1.2 Add favorites() relationship to User model — 6883f17
+- [x] 1.3 Add favoritedBy() relationship to Observation model — 6883f17
+- [x] 1.4 Migration applies and rollback works — 6883f17
+- [x] 1.5 Pint passes — 6883f17
 
 #### Manual
 
@@ -447,11 +447,11 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [ ] 2.1 Create FavoriteRepositoryInterface
-- [ ] 2.2 Create EloquentFavoriteRepository
-- [ ] 2.3 Create FavoriteService with toggle/query methods
-- [ ] 2.4 Register binding in AppServiceProvider
-- [ ] 2.5 Pint passes
+- [x] 2.1 Create FavoriteRepositoryInterface
+- [x] 2.2 Create EloquentFavoriteRepository
+- [x] 2.3 Create FavoriteService with toggle/query methods
+- [x] 2.4 Register binding in AppServiceProvider
+- [x] 2.5 Pint passes
 
 #### Manual
 

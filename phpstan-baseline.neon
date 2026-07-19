@@ -3,6 +3,18 @@ parameters:
 		-
 			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
 			identifier: generics.lessTypes
+			count: 1
+			path: app/Contracts/Repositories/FavoriteRepositoryInterface.php
+
+		-
+			message: '#^Type App\\Models\\Observation in generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return is not subtype of template type TKey of \(int\|string\) of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\.$#'
+			identifier: generics.notSubtype
+			count: 1
+			path: app/Contracts/Repositories/FavoriteRepositoryInterface.php
+
+		-
+			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
+			identifier: generics.lessTypes
 			count: 3
 			path: app/Contracts/Repositories/ObservationRepositoryInterface.php
 
@@ -47,6 +59,12 @@ parameters:
 			identifier: missingType.generics
 			count: 1
 			path: app/Models/Role.php
+
+		-
+			message: '#^Method App\\Repositories\\EloquentFavoriteRepository\:\:paginateByUser\(\) should return Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> but returns Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Observation\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Repositories/EloquentFavoriteRepository.php
 
 		-
 			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
@@ -95,6 +113,12 @@ parameters:
 			identifier: generics.notSubtype
 			count: 1
 			path: app/Repositories/EloquentUserRepository.php
+
+		-
+			message: '#^Method App\\Services\\FavoriteService\:\:getUserFavorites\(\) should return Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<int, App\\Models\\Observation\> but returns Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\>\.$#'
+			identifier: return.type
+			count: 1
+			path: app/Services/FavoriteService.php
 
 		-
 			message: '#^Generic type Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\<App\\Models\\Observation\> in PHPDoc tag @return does not specify all template types of interface Illuminate\\Contracts\\Pagination\\LengthAwarePaginator\: TKey, TValue$#'
