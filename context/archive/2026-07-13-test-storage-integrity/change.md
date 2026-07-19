@@ -1,9 +1,10 @@
 ---
 change_id: test-storage-integrity
 title: Prove uploaded media is accessible via public URL end-to-end
-status: implemented
+status: archived
 created: 2026-07-13
 updated: 2026-07-19
+archived_at: 2026-07-19T00:00:00Z
 archived_at: null
 ---
 
