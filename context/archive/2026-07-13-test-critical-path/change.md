@@ -1,9 +1,10 @@
 ---
 change_id: test-critical-path
 title: Defend publish, manage, and authorization flows with feature and unit tests
-status: implemented
+status: archived
 created: 2026-07-13
 updated: 2026-07-19
+archived_at: 2026-07-19T00:00:00Z
 archived_at: null
 ---
 
