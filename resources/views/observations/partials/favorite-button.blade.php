@@ -31,11 +31,57 @@
 @endauth
 
 @once
+@push('styles')
+<style>
+.favorite-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    cursor: pointer;
+    font-size: 1.25rem;
+    color: rgba(246, 251, 252, 0.5);
+    transition: color 0.2s, transform 0.15s;
+    border-radius: 4px;
+}
+.favorite-btn:hover {
+    color: #f5c518;
+    transform: scale(1.1);
+}
+.favorite-btn--active {
+    color: #f5c518;
+}
+.favorite-btn--active:hover {
+    color: #ffdd57;
+}
+.favorite-btn--guest {
+    cursor: default;
+    font-size: 1.25rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.25rem 0.5rem;
+    color: rgba(246, 251, 252, 0.3);
+}
+.favorite-btn__star {
+    line-height: 1;
+}
+.favorite-btn__count {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+</style>
+@endpush
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.favorite-btn[data-url]').forEach(function (btn) {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
             const url = btn.dataset.url;
             const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
 
@@ -59,10 +105,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(function (data) {
                 if (!data) return;
 
-                const star = btn.querySelector('.favorite-btn__star');
-                let count = btn.querySelector('.favorite-btn__count');
+                var star = btn.querySelector('.favorite-btn__star');
+                var count = btn.querySelector('.favorite-btn__count');
 
-                star.textContent = data.favorited ? '★' : '☆';
+                star.textContent = data.favorited ? '\u2605' : '\u2606';
                 btn.classList.toggle('favorite-btn--active', data.favorited);
                 btn.setAttribute('aria-pressed', data.favorited ? 'true' : 'false');
                 btn.setAttribute('aria-label', data.favorited ? 'Remove from favorites' : 'Add to favorites');

@@ -76,4 +76,20 @@ class FavoriteToggleTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_favorite_is_idempotent(): void
+    {
+        $user = User::factory()->create();
+        $observation = Observation::factory()->create(['published_at' => now()]);
+
+        // First toggle: add
+        $this->actingAs($user)->postJson(route('observations.favorite.toggle', $observation));
+        // Second toggle: remove
+        $this->actingAs($user)->postJson(route('observations.favorite.toggle', $observation));
+
+        $this->assertDatabaseMissing('favorites', [
+            'user_id' => $user->id,
+            'observation_id' => $observation->id,
+        ]);
+    }
 }

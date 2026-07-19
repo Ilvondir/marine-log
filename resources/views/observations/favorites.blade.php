@@ -54,7 +54,7 @@
                 </nav>
             @endif
         @else
-            <p style="margin-top: 2rem; color: rgba(246,251,252,0.6);">You haven't favorited any observations yet.</p>
+            <p style="margin-top: 2rem; color: rgba(246,251,252,0.6);">You have not favorited any observations yet.</p>
         @endif
     </section>
 @endsection

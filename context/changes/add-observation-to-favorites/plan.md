@@ -474,12 +474,12 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [x] 4.1 Create favorite-button partial
-- [x] 4.2 Update ObservationController to pass favorites data
-- [x] 4.3 Add withCount to repository queries
-- [x] 4.4 Include partial in index and show views
-- [x] 4.5 Add inline JS for AJAX toggle
-- [x] 4.6 Pint passes
+- [x] 4.1 Create favorite-button partial — a250f3c
+- [x] 4.2 Update ObservationController to pass favorites data — a250f3c
+- [x] 4.3 Add withCount to repository queries — a250f3c
+- [x] 4.4 Include partial in index and show views — a250f3c
+- [x] 4.5 Add inline JS for AJAX toggle — a250f3c
+- [x] 4.6 Pint passes — a250f3c
 
 #### Manual
 
@@ -492,9 +492,9 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [x] 5.1 Create favorites Blade view
-- [x] 5.2 Add navigation link for auth users
-- [x] 5.3 Pint passes
+- [x] 5.1 Create favorites Blade view — a250f3c
+- [x] 5.2 Add navigation link for auth users — a250f3c
+- [x] 5.3 Pint passes — a250f3c
 
 #### Manual
 
@@ -506,9 +506,9 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [ ] 6.1 Create FavoriteToggleTest (6 tests)
-- [ ] 6.2 Create FavoriteListTest (4 tests)
-- [ ] 6.3 Create FavoriteServiceTest (2 unit tests)
-- [ ] 6.4 All new tests pass
-- [ ] 6.5 Full suite passes (no regression)
-- [ ] 6.6 Pint passes
+- [x] 6.1 Create FavoriteToggleTest (6 tests)
+- [x] 6.2 Create FavoriteListTest (4 tests)
+- [x] 6.3 Create FavoriteServiceTest (2 unit tests)
+- [x] 6.4 All new tests pass
+- [x] 6.5 Full suite passes (no regression)
+- [x] 6.6 Pint passes

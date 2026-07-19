@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#05111f">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'MarineLog') }}</title>
 
@@ -299,23 +300,24 @@
                     }
                 }
 
-                @media (min-width: 64rem) {
-                    .marine-card-grid {
-                        grid-template-columns: repeat(3, 1fr);
-                    }
+                /* Card grid */
+                .marine-card-grid {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 1.25rem;
+                    margin-top: 1.5rem;
                 }
 
-                @media (min-width: 40rem) and (max-width: 63.99rem) {
+                @media (min-width: 40rem) {
                     .marine-card-grid {
                         grid-template-columns: repeat(2, 1fr);
                     }
                 }
 
-                /* Card grid */
-                .marine-card-grid {
-                    display: grid;
-                    gap: 1.25rem;
-                    margin-top: 1.5rem;
+                @media (min-width: 64rem) {
+                    .marine-card-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
                 }
 
                 .marine-card {
@@ -577,6 +579,7 @@
                 }
             </style>
         @endif
+    @stack('styles')
     </head>
     <body class="marine-shell">
         <div class="marine-shell__glow marine-shell__glow--left" aria-hidden="true"></div>
@@ -627,5 +630,6 @@
                 <span>English-only product shell</span>
             </footer>
         </div>
+    @stack('scripts')
     </body>
 </html>
