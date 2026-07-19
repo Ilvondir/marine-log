@@ -91,17 +91,16 @@ class AdminServiceTest extends TestCase
 
         $blockedUser = new User;
         $blockedUser->id = 2;
-        $blockedUser->blocked_at = now();
 
         $this->userRepository
             ->shouldReceive('update')
             ->once()
-            ->with(2, Mockery::on(fn (array $data): bool => isset($data['blocked_at']) && $data['blocked_at'] !== null))
+            ->with(2, Mockery::on(fn (array $data): bool => array_key_exists('blocked_at', $data) && $data['blocked_at'] !== null))
             ->andReturn($blockedUser);
 
         $result = $this->service->blockUser($admin, $target);
 
-        $this->assertNotNull($result->blocked_at);
+        $this->assertSame($blockedUser, $result);
     }
 
     public function test_unblock_user_clears_blocked_at(): void
