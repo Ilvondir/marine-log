@@ -1,10 +1,10 @@
 ---
 change_id: publish-observation-flow
 title: Publish observation flow (S-02)
-status: impl_reviewed
+status: archived
 created: 2026-06-28
 updated: 2026-07-19
-archived_at: null
+archived_at: 2026-07-19T00:00:00Z
 ---
 
 ## Notes
