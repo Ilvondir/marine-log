@@ -1,10 +1,10 @@
 ---
 change_id: public-observation-feed
 title: Public observation feed (S-01)
-status: impl_reviewed
+status: archived
 created: 2026-07-01
 updated: 2026-07-19
-archived_at: null
+archived_at: 2026-07-19T00:00:00Z
 ---
 
 ## Notes
