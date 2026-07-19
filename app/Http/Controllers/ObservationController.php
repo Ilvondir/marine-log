@@ -5,15 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreObservationRequest;
 use App\Http\Requests\UpdateObservationRequest;
 use App\Models\Observation;
+use App\Services\FavoriteService;
 use App\Services\ObservationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ObservationController extends Controller
 {
     public function __construct(
         private readonly ObservationService $observationService,
+        private readonly FavoriteService $favoriteService,
     ) {}
 
     /**
@@ -23,7 +26,12 @@ class ObservationController extends Controller
     {
         $observations = $this->observationService->getPublishedFeed();
 
-        return view('observations.index', compact('observations'));
+        $favoritedIds = [];
+        if (Auth::check()) {
+            $favoritedIds = Auth::user()->favorites()->pluck('observation_id')->all();
+        }
+
+        return view('observations.index', compact('observations', 'favoritedIds'));
     }
 
     /**
@@ -71,8 +79,12 @@ class ObservationController extends Controller
         abort_unless($observation->published_at !== null, 404);
 
         $observation->load(['user', 'resources']);
+        $observation->loadCount('favoritedBy');
 
-        return view('observations.show', compact('observation'));
+        $isFavorited = Auth::check()
+            && $this->favoriteService->isFavorited(Auth::id(), $observation->id);
+
+        return view('observations.show', compact('observation', 'isFavorited'));
     }
 
     /**

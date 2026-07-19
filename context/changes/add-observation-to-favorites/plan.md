@@ -461,10 +461,10 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [x] 3.1 Create FavoriteController with toggle and index
-- [x] 3.2 Add routes (before wildcard)
-- [x] 3.3 Toggle endpoint returns correct JSON
-- [x] 3.4 Pint passes
+- [x] 3.1 Create FavoriteController with toggle and index — 8141241
+- [x] 3.2 Add routes (before wildcard) — 8141241
+- [x] 3.3 Toggle endpoint returns correct JSON — 8141241
+- [x] 3.4 Pint passes — 8141241
 
 #### Manual
 
@@ -474,12 +474,12 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [ ] 4.1 Create favorite-button partial
-- [ ] 4.2 Update ObservationController to pass favorites data
-- [ ] 4.3 Add withCount to repository queries
-- [ ] 4.4 Include partial in index and show views
-- [ ] 4.5 Add inline JS for AJAX toggle
-- [ ] 4.6 Pint passes
+- [x] 4.1 Create favorite-button partial
+- [x] 4.2 Update ObservationController to pass favorites data
+- [x] 4.3 Add withCount to repository queries
+- [x] 4.4 Include partial in index and show views
+- [x] 4.5 Add inline JS for AJAX toggle
+- [x] 4.6 Pint passes
 
 #### Manual
 
@@ -492,9 +492,9 @@ Feature tests for the favorite toggle, favorites list, auth guards, and count vi
 
 #### Automated
 
-- [ ] 5.1 Create favorites Blade view
-- [ ] 5.2 Add navigation link for auth users
-- [ ] 5.3 Pint passes
+- [x] 5.1 Create favorites Blade view
+- [x] 5.2 Add navigation link for auth users
+- [x] 5.3 Pint passes
 
 #### Manual
 

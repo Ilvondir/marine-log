@@ -31,6 +31,11 @@
                             <span class="marine-card__species">{{ $observation->species }}</span>
                             <span class="marine-card__meta">{{ $observation->observed_at->format('M j, Y') }}</span>
                             <span class="marine-card__meta">📍 {{ $observation->location_name }}</span>
+                            @include('observations.partials.favorite-button', [
+                                'observation' => $observation,
+                                'isFavorited' => in_array($observation->id, $favoritedIds ?? []),
+                                'favoritesCount' => $observation->favorited_by_count ?? 0,
+                            ])
                         </div>
                     </a>
                 @endforeach

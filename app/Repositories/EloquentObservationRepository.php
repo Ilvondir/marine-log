@@ -68,6 +68,7 @@ class EloquentObservationRepository implements ObservationRepositoryInterface
             return Observation::query()
                 ->published()
                 ->with('photos')
+                ->withCount('favoritedBy')
                 ->latest('published_at')
                 ->paginate($perPage);
         } catch (\Throwable $e) {

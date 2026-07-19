@@ -13,6 +13,11 @@
             <p class="marine-kicker">Observation #{{ $observation->id }}</p>
             <h1 class="obs-detail__title">{{ $observation->species }}</h1>
             <p class="obs-detail__observer">by {{ $observation->user->name }} · {{ $observation->observed_at->format('M j, Y \a\t H:i') }}</p>
+            @include('observations.partials.favorite-button', [
+                'observation' => $observation,
+                'isFavorited' => $isFavorited ?? false,
+                'favoritesCount' => $observation->favorited_by_count ?? 0,
+            ])
         </header>
 
         {{-- Two-column layout: media left, meta right --}}

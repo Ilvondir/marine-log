@@ -606,6 +606,7 @@
                         @endif
 
                         <a href="{{ route('observations.my') }}" class="marine-navlink">My observations</a>
+                        <a href="{{ route('observations.favorites') }}" class="marine-navlink">My favorites</a>
                         <a href="{{ route('observations.create') }}" class="marine-button marine-button--small">New observation</a>
 
                         <form action="{{ route('logout') }}" method="post" class="marine-inline-form">
