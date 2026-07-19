@@ -1,10 +1,10 @@
 ---
 change_id: own-observation-management
 title: Own observation management
-status: impl_reviewed
+status: archived
 created: 2026-07-12
-updated: 2026-07-12
-archived_at: null
+updated: 2026-07-19
+archived_at: 2026-07-19T00:00:00Z
 ---
 
 ## Notes
