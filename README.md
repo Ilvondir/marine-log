@@ -6,6 +6,13 @@ Szczegółowy opis produktu, wymagania i zakres MVP znajdziesz w [`context/found
 
 ---
 
+## Demo / Produkcja
+
+Aplikacja jest dostępna produkcyjnie pod adresem:  
+👉 **[https://marine-log.michal-komsa.xyz](https://marine-log.michal-komsa.xyz)**
+
+---
+
 ## Wymagania
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) (lub Docker Engine na Linuxie)
