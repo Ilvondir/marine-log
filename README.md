@@ -1,58 +1,137 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# MarineLog
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikacja webowa dla nurków-amatorów do dokumentowania obserwacji fauny morskiej i słodkowodnej. Użytkownik może rejestrować spotkania z gatunkami wodnymi wraz ze zdjęciami, filmami i danymi o warunkach obserwacji (głębokość, temperatura wody, pogoda). Obserwacje są publicznie dostępne bez logowania. Administratorzy mogą moderować treści i zarządzać kontami użytkowników.
 
-## About Laravel
+Szczegółowy opis produktu, wymagania i zakres MVP znajdziesz w [`context/foundation/prd.md`](context/foundation/prd.md).
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Wymagania
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (lub Docker Engine na Linuxie)
+- [Composer](https://getcomposer.org/) — tylko do pierwszej instalacji zależności przed uruchomieniem Sail
+- Node.js nie jest wymagany lokalnie — Vite działa przez Sail
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## Uruchomienie lokalne
 
 ```bash
-composer require laravel/boost --dev
+# 1. Sklonuj repozytorium i wejdź do katalogu
+git clone https://github.com/Ilvondir/marine-log.git marinelog
+cd marinelog
 
-php artisan boost:install
+# 2. Skopiuj plik środowiskowy
+cp .env.example .env
+
+# 3. Zainstaluj zależności PHP (jednorazowo, przed startem Sail)
+composer install --no-scripts
+
+# 4. Uruchom kontenery (Laravel, MySQL, Redis)
+./vendor/bin/sail up -d
+
+# 5. Wygeneruj klucz aplikacji
+./vendor/bin/sail artisan key:generate
+
+# 6. Uruchom migracje
+./vendor/bin/sail artisan migrate
+
+# 7. Utwórz symlink do storage (wymagany do wyświetlania mediów)
+./vendor/bin/sail artisan storage:link
+
+# 8. Uruchom serwer Vite (frontend assets)
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Aplikacja będzie dostępna pod adresem **http://localhost**.
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Domyślne konta (Seedery)
 
-## Code of Conduct
+Aby zasilić bazę danymi początkowymi (w tym rolami i domyślnym kontem administratora), uruchom:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+./vendor/bin/sail artisan db:seed
+```
 
-## Security Vulnerabilities
+Domyślne dane logowania utworzone przez seeder:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Rola | Email | Hasło |
+|---|---|---|
+| **Administrator** | `admin@marinelog.test` | `password` |
+| **Użytkownik** | `user@marinelog.test` | `password` |
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).# ci test
+## Uruchamianie testów
+
+```bash
+# Cały zestaw testów (Unit + Feature)
+./vendor/bin/sail composer test
+
+# Pojedyncza klasa lub metoda
+./vendor/bin/sail artisan test --filter=PublishObservationTest
+
+# Sprawdzenie stylu kodu (Pint)
+./vendor/bin/sail pint --test
+
+# Automatyczna naprawa stylu
+./vendor/bin/sail pint
+```
+
+Strategia testów, mapa ryzyk i wzorce dla nowych testów opisane są w [`context/foundation/test-plan.md`](context/foundation/test-plan.md).
+
+---
+
+## Najważniejsze komendy
+
+| Komenda | Opis |
+|---|---|
+| `./vendor/bin/sail up -d` | Uruchamia kontenery w tle |
+| `./vendor/bin/sail down` | Zatrzymuje kontenery |
+| `./vendor/bin/sail artisan migrate` | Aplikuje migracje bazy danych |
+| `./vendor/bin/sail artisan migrate:fresh --seed` | Reset bazy z danymi testowymi |
+| `./vendor/bin/sail artisan storage:link` | Tworzy symlink `public/storage` |
+| `./vendor/bin/sail npm run dev` | Uruchamia Vite w trybie watch |
+| `./vendor/bin/sail npm run build` | Buduje produkcyjne assety |
+| `./vendor/bin/sail composer test` | Uruchamia testy PHPUnit |
+| `./vendor/bin/sail pint` | Formatuje kod (Laravel Pint) |
+
+---
+
+## Struktura projektu
+
+```
+app/
+  Http/Controllers/   # Cienkie kontrolery — walidacja, wywołanie serwisu, odpowiedź
+  Services/           # Logika biznesowa (ObservationService, AdminService, FavoriteService…)
+  Contracts/          # Interfejsy repozytoriów
+  Repositories/       # Implementacje Eloquent
+  Policies/           # Kontrola dostępu na poziomie modelu (ObservationPolicy)
+  Models/             # Modele Eloquent
+context/
+  foundation/         # PRD, plan testów, stack, roadmapa — źródło decyzji produktowych
+  archive/            # Historia zmian z planami i przeglądami implementacji
+database/
+  migrations/         # Schemat bazy danych
+tests/
+  Unit/               # Testy jednostkowe serwisów (mocki repozytoriów)
+  Feature/            # Testy HTTP end-to-end z prawdziwą bazą
+  e2e/                # Testy Playwright (IDOR, przepływ przeglądarki)
+```
+
+---
+
+## Stos technologiczny
+
+- **Backend:** Laravel 13, PHP 8.3
+- **Baza danych:** MySQL 8 (przez Sail)
+- **Cache / kolejki:** Redis
+- **Frontend:** Blade + Vite
+- **Środowisko dev:** Laravel Sail (Docker)
+- **CI:** GitHub Actions
+- **Deployment:** Hetzner + Coolify
+
+Pełne uzasadnienie wyboru stosu: [`context/foundation/tech-stack.md`](context/foundation/tech-stack.md).
